@@ -1,24 +1,28 @@
-* GET: deathnote/persons
-* GET: deathnote/owners
-
-* POST: deathnote/person
-    - name
-    - facesSeen (Optional)
-* POST: deathnote/create
+* POST: v1/deathnote/create
     - name of the deathnote
 
-* PUT: deathnote/person/makeowner
-    - id of the person to make owner
-    - id of the deathnote to make the owner of
-* PUT: deathnote/person/addfacetoseen
+
+* GET: v1/person/list
+* POST: v1/person
+    - name
+    - facesSeen (Optional)
+* PUT: v1/person/addfacetoseen
     - owner of death note id
     - name of the person
-* PUT: deathnote/kill
+
+
+* GET: v1/owner/list
+* PUT: v1/owner/killperson
     - owner of death note id
     - name of the person to kill
+* PUT: v1/owner/create
+    - id of the person to make owner
+    - id of the deathnote to make the owner of
+
+
 
 Migrations Testing:
 ===================
-* POST: deathnote/create
+* POST: v1/deathnote/create
     - name of the shinigami the deathnote belongs to
     - name of the deathnote
