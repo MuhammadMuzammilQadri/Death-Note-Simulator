@@ -4,7 +4,6 @@ import com.muzammil.death_note_simulator.models.Person
 import com.muzammil.death_note_simulator.repos.person.PersonRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Service
@@ -19,6 +18,10 @@ class PersonService : IPersonService {
   
   override fun saveAll(persons: Iterable<Person>): Iterable<Person> {
     return personRepo.saveAll(persons)
+  }
+  
+  override fun deleteAll() {
+    personRepo.deleteAll()
   }
   
   @Transactional(readOnly = true, noRollbackFor = [Exception::class])
@@ -36,7 +39,7 @@ class PersonService : IPersonService {
   
   protected fun getPersonWithSeenFaces(name: String): Person? {
     return personRepo.findByName(name)?.also {
-      it.facesSeen.get(0)
+      it.facesSeen.size
     }
   }
   

@@ -2,13 +2,13 @@
     - name of the deathnote
 
 
-* GET: v1/person/list
+* GET: v1/person/list?withseenfaces
 * POST: v1/person
     - name
     - facesSeen (Optional)
 * PUT: v1/person/addfacetoseen
-    - owner of death note id
-    - name of the person
+    - person id who saw the face
+    - id of the person whose face has been seen
 
 
 * GET: v1/owner/list

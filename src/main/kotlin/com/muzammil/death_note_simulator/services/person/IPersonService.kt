@@ -9,4 +9,5 @@ interface IPersonService {
   fun savePerson(person: Person): Person
   fun saveAll(persons: Iterable<Person>): Iterable<Person>
   fun getPerson(name: String, shouldFetchFaces: Boolean = false): Person?
+  fun deleteAll()
 }
