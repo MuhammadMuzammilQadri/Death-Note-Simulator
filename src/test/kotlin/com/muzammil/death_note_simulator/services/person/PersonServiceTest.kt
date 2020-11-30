@@ -21,11 +21,13 @@ class PersonServiceTest {
     val personLight = Person(name = "Light")
     val personYagami = Person(name = "Yagami")
     val personL = Person(name = "L")
-    personYagami.facesSeen = mutableListOf(personLight, personL)
     
+    personService.saveAll(listOf(personLight, personYagami, personL))
+    personYagami.facesSeen = mutableListOf(personLight, personL)
     personService.savePerson(personYagami)
     
-    val fetchedPerson = personService.getPerson("Yagami")
+    val fetchedPerson = personService.getPerson("Yagami", true)
+    
     assertNotNull(fetchedPerson)
     assertEquals(personYagami.id, fetchedPerson?.id)
     assertEquals(personYagami.facesSeen.size, fetchedPerson?.facesSeen?.size)

@@ -7,6 +7,6 @@ import com.muzammil.death_note_simulator.models.Person
  */
 interface IPersonService {
   fun savePerson(person: Person): Person
-  fun getPerson(name: String): Person?
-  
+  fun saveAll(persons: Iterable<Person>): Iterable<Person>
+  fun getPerson(name: String, shouldFetchFaces: Boolean = false): Person?
 }
