@@ -19,8 +19,8 @@ class DeathNoteServiceTest {
   fun saveDeathNote_thenGetList() {
     val deathNote1 = DeathNote(name = "Light Book")
     val deathNote2 = DeathNote(name = "Muzammil Book")
-    deathNoteService.saveNotebook(deathNote1)
-    deathNoteService.saveNotebook(deathNote2)
+    deathNoteService.createOrUpdateNotebook(deathNote1)
+    deathNoteService.createOrUpdateNotebook(deathNote2)
     
     val fetchedDeathNoteList = deathNoteService.listNotebooks()
     assertEquals(2, fetchedDeathNoteList.size)

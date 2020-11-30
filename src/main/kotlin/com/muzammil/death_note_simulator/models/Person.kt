@@ -15,6 +15,8 @@ class Person(
   var name: String,
   var isAlive: Boolean = true,
   @ManyToMany
-  var facesSeen: Set<Person> = mutableSetOf()
+  var facesSeen: Set<Person> = mutableSetOf(),
+  @OneToMany
+  var deathNotes: Set<DeathNote> = mutableSetOf()
             ) {
 }

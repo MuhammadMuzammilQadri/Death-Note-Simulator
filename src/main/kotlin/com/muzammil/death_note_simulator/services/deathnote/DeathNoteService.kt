@@ -4,6 +4,7 @@ import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class DeathNoteService : IDeathNoteService {
@@ -11,8 +12,12 @@ class DeathNoteService : IDeathNoteService {
   @Autowired
   lateinit var deathNoteRepo: DeathNoteRepo
   
-  override fun saveNotebook(deathNote: DeathNote): DeathNote {
+  override fun createOrUpdateNotebook(deathNote: DeathNote): DeathNote {
     return deathNoteRepo.save(deathNote)
+  }
+  
+  override fun findNotebook(deathNoteId: Long): DeathNote? {
+    return deathNoteRepo.findById(deathNoteId).get()
   }
   
   override fun listNotebooks(): List<DeathNote> {

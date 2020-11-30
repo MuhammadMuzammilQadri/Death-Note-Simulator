@@ -26,3 +26,7 @@ Migrations Testing:
 * POST: v1/deathnote/create
     - name of the shinigami the deathnote belongs to
     - name of the deathnote
+
+
+Convert from H2 to SQL
+======================

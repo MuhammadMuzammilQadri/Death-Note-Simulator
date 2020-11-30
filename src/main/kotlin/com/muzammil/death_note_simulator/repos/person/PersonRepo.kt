@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository
  */
 interface PersonRepo : CrudRepository<Person, Long> {
   fun findByName(name: String): Person?
+  fun findAllByDeathNotesNotNull(): Set<Person>
+  fun deleteByName(name: String)
 }
