@@ -6,6 +6,7 @@ import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,15 +16,21 @@ import org.springframework.boot.test.context.SpringBootTest
  */
 @SpringBootTest
 class OwnerServiceTest {
-  
   @Autowired
-  lateinit var ownerService: IOwnerService
+  lateinit var deathNoteService: IDeathNoteService
   
   @Autowired
   lateinit var personService: IPersonService
   
   @Autowired
-  lateinit var deathNoteService: IDeathNoteService
+  lateinit var ownerService: IOwnerService
+  
+  @BeforeEach
+  fun beforeEachSetup() {
+    deathNoteService.deleteAll()
+    personService.deleteAll()
+    ownerService.deleteAll()
+  }
   
   @Test
   fun givenAPerson_createAOwnerToKillHim() {

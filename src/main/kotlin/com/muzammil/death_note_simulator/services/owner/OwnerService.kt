@@ -32,6 +32,11 @@ class OwnerService : IOwnerService {
     throw NoSuchElementException("Do Death Note present with the given id")
   }
   
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  override fun deleteAll() {
+    personService.deleteAll()
+  }
+  
   @Transactional(readOnly = true)
   override fun listOwners(): Set<Person> {
     return personService.findAllByDeathNotesNotNull()

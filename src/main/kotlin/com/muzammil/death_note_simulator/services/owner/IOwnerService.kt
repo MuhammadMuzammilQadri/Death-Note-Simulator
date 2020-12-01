@@ -7,4 +7,5 @@ interface IOwnerService {
   fun makeOwner(deathNoteId: Long, personId: Long): DeathNote
   fun listOwners(): Set<Person>
   fun killPerson(ownerName: String, personToKill: String)
+  fun deleteAll()
 }

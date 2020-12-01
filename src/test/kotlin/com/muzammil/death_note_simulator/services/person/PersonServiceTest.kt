@@ -1,6 +1,8 @@
 package com.muzammil.death_note_simulator.services.person
 
 import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
+import com.muzammil.death_note_simulator.services.owner.IOwnerService
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,11 +17,19 @@ import org.springframework.dao.InvalidDataAccessApiUsageException
 @SpringBootTest
 class PersonServiceTest {
   @Autowired
+  lateinit var deathNoteService: IDeathNoteService
+  
+  @Autowired
   lateinit var personService: IPersonService
+  
+  @Autowired
+  lateinit var ownerService: IOwnerService
   
   @BeforeEach
   fun beforeEachSetup() {
+    deathNoteService.deleteAll()
     personService.deleteAll()
+    ownerService.deleteAll()
   }
   
   @Test

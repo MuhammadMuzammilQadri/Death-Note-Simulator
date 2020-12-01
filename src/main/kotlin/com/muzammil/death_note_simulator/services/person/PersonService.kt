@@ -4,6 +4,7 @@ import com.muzammil.death_note_simulator.models.Person
 import com.muzammil.death_note_simulator.repos.person.PersonRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Service
@@ -12,14 +13,17 @@ class PersonService : IPersonService {
   @Autowired
   lateinit var personRepo: PersonRepo
   
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun savePerson(person: Person): Person {
     return personRepo.save(person)
   }
   
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun saveAll(persons: Iterable<Person>): Iterable<Person> {
     return personRepo.saveAll(persons)
   }
   
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun deleteAll() {
     personRepo.deleteAll()
   }
@@ -36,14 +40,17 @@ class PersonService : IPersonService {
     }
   }
   
+  @Transactional(readOnly = true)
   override fun getPersonById(personId: Long): Person? {
     return personRepo.findById(personId).get()
   }
   
+  @Transactional(readOnly = true)
   override fun findAllByDeathNotesNotNull(): Set<Person> {
     return personRepo.findAllByDeathNotesNotNull()
   }
   
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun deletePerson(personToKill: String) {
     return personRepo.deleteByName(personToKill)
   }
