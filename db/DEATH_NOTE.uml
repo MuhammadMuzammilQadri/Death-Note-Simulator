@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE</OriginalElement>
+  <nodes>
+    <node x="0.0" y="383.10548149265486">8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.MEMORY</node>
+    <node x="460.2824812426481" y="624.5893550180081">8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE_HISTORY</node>
+    <node x="442.56833403223874" y="0.0">8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON_FACES_SEEN</node>
+    <node x="130.74469554571448" y="746.7368790056689">8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE</node>
+    <node x="360.9461197594597" y="260.5509313713237">8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.MEMORY" target="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON">
+      <point x="-1.7984850343416667" y="-4.665345815826413" />
+      <point x="-1.7984850343416667" y="-4.665345815826413" />
+    </edge>
+    <edge source="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE" target="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON_FACES_SEEN" target="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON">
+      <point x="-5.411961001461975" y="0.0" />
+      <point x="-5.411961001461961" y="0.0" />
+    </edge>
+    <edge source="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.MEMORY" target="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE_HISTORY" target="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.PERSON">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE_HISTORY" target="8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Circular" zoom="0.593505039193729" x="349.5" y="436.5" />
+  <SelectedNodes>
+    <node>8f9f3474-c8a8-456c-ab4d-fad68f3a0137.TABLE:DEATH_NOTE_DB.PUBLIC.DEATH_NOTE</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
