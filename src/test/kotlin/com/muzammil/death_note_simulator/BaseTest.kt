@@ -20,8 +20,8 @@ open class BaseTest {
   private lateinit var ownerService: IOwnerService
   
   open fun beforeEachSetup() {
+    ownerService.deleteAll()
     deathNoteService.deleteAll()
     personService.deleteAll()
-    ownerService.deleteAll()
   }
 }

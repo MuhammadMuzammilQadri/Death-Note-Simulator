@@ -15,5 +15,4 @@ interface IPersonService {
   fun deleteAll()
   fun getPersonById(personId: Long): Person?
   fun findAllByDeathNotesNotNull(): Set<Person>
-  fun deletePerson(personToKill: String)
 }

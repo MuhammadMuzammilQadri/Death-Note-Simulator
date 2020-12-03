@@ -8,7 +8,7 @@ import javax.persistence.*
 
 @Entity
 class Person(
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   var id: Long? = null,
   @Column(unique = true)
@@ -17,6 +17,4 @@ class Person(
   @ManyToMany
   var facesSeen: Set<Person> = mutableSetOf(),
   @OneToMany(mappedBy = "owner")
-  var deathNotes: Set<DeathNote> = mutableSetOf()
-            ) {
-}
+  var deathNotes: Set<DeathNote> = mutableSetOf())

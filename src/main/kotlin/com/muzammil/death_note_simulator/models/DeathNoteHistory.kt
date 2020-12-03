@@ -7,11 +7,13 @@ import javax.persistence.*
  */
 
 @Entity
-class DeathNote(
+class DeathNoteHistory(
   @GeneratedValue
   @Id
   var id: Long? = null,
-  var name: String,
-  @ManyToOne
+  @OneToOne
+  @JoinColumn(name = "death_note_id")
+  var deathNote: DeathNote? = null,
+  @OneToOne
   @JoinColumn(name = "owner_id")
   var owner: Person? = null)

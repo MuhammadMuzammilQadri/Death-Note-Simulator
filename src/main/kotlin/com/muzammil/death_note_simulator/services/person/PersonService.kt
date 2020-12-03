@@ -29,7 +29,9 @@ class PersonService : IPersonService {
   }
   
   @Transactional(readOnly = true, noRollbackFor = [Exception::class])
-  override fun getPerson(name: String, shouldFetchFaces: Boolean, shouldFetchDeathNotes: Boolean): Person? {
+  override fun getPerson(name: String,
+                         shouldFetchFaces: Boolean,
+                         shouldFetchDeathNotes: Boolean): Person? {
     return personRepo.findByName(name)?.also {
       if (shouldFetchFaces) {
         it.facesSeen.size
@@ -49,10 +51,4 @@ class PersonService : IPersonService {
   override fun findAllByDeathNotesNotNull(): Set<Person> {
     return personRepo.findAllByDeathNotesNotNull()
   }
-  
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  override fun deletePerson(personToKill: String) {
-    return personRepo.deleteByName(personToKill)
-  }
-  
 }
