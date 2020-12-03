@@ -1,8 +1,9 @@
 package com.muzammil.death_note_simulator
 
-import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
-import com.muzammil.death_note_simulator.services.owner.IOwnerService
-import com.muzammil.death_note_simulator.services.person.IPersonService
+import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
+import com.muzammil.death_note_simulator.repos.deathnote_history.DeathNoteHistoryRepo
+import com.muzammil.death_note_simulator.repos.memory.MemoryRepo
+import com.muzammil.death_note_simulator.repos.person.PersonRepo
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -11,17 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired
 open class BaseTest {
   
   @Autowired
-  private lateinit var deathNoteService: IDeathNoteService
+  private lateinit var deathNoteRepo: DeathNoteRepo
   
   @Autowired
-  private lateinit var personService: IPersonService
+  private lateinit var personRepo: PersonRepo
   
   @Autowired
-  private lateinit var ownerService: IOwnerService
+  private lateinit var memoryRepo: MemoryRepo
+  
+  @Autowired
+  private lateinit var deathNoteHistoryRepo: DeathNoteHistoryRepo
   
   open fun beforeEachSetup() {
-    ownerService.deleteAll()
-    deathNoteService.deleteAll()
-    personService.deleteAll()
+    memoryRepo.deleteAll()
+    deathNoteHistoryRepo.deleteAll()
+    deathNoteRepo.deleteAll()
+    personRepo.deleteAll()
   }
 }

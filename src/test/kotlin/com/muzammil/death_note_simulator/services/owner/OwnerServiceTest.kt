@@ -52,7 +52,7 @@ class OwnerServiceTest : BaseTest() {
     val person3 = personService.savePerson(Person(name = "Bad Guy3"))
     val person4 = personService.savePerson(Person(name = "Bad Guy4"))
     
-    var owner = createOwner()
+    val owner = createOwner()
     
     // then
     ownerService.killPerson(owner.name, person1.name)
@@ -71,6 +71,28 @@ class OwnerServiceTest : BaseTest() {
     assertEquals(person2.id, killedPersons[1]?.id)
     assertEquals(person3.id, killedPersons[2]?.id)
     assertEquals(person4.id, killedPersons[3]?.id)
+  }
+  
+  @Test
+  fun creatADeathNote_thenChangeOwners_thenVerifiesThatHistorySaves() {
+    // given
+    val deathNote = createDeathNote()
+    val firstOwner = personService.savePerson(Person(name = "Light Yagami"))
+    ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
+    
+    val secondOwner = personService.savePerson(Person(name = "Misa"))
+    ownerService.makeOwner(deathNote.id!!, secondOwner.id!!)
+    
+    ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
+    
+    // then
+    val ownershipHistory = ownerService.getOwnershipHistory(deathNote.id!!)
+    
+    // assert
+    assertEquals(3, ownershipHistory.size)
+    assertEquals(firstOwner.id, ownershipHistory[0].owner?.id)
+    assertEquals(secondOwner.id, ownershipHistory[1].owner?.id)
+    assertEquals(firstOwner.id, ownershipHistory[2].owner?.id)
   }
   
   private fun createOwner(): Person {

@@ -2,8 +2,10 @@ package com.muzammil.death_note_simulator.services.owner
 
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
+import com.muzammil.death_note_simulator.models.DeathNoteHistory
 import com.muzammil.death_note_simulator.models.Memory
 import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.repos.deathnote_history.DeathNoteHistoryRepo
 import com.muzammil.death_note_simulator.repos.memory.MemoryRepo
 import com.muzammil.death_note_simulator.repos.person.PersonRepo
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 @Service
 class OwnerService : IOwnerService {
@@ -29,6 +30,9 @@ class OwnerService : IOwnerService {
   @Autowired
   lateinit var memoryRepo: MemoryRepo
   
+  @Autowired
+  lateinit var deathNoteHistoryRepo: DeathNoteHistoryRepo
+  
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun makeOwner(deathNoteId: Long, personId: Long): DeathNote {
     deathNoteService.findNotebook(deathNoteId)?.also { deathNote ->
@@ -36,10 +40,20 @@ class OwnerService : IOwnerService {
         person.deathNotes = mutableSetOf(deathNote)
         deathNote.owner = person
         personService.savePerson(person)
-        return deathNoteService.createOrUpdateNotebook(deathNote)
+        return deathNoteService.createOrUpdateNotebook(deathNote).also {
+          deathNoteHistoryRepo.save(DeathNoteHistory(deathNote = deathNote,
+                                                     owner = deathNote.owner))
+        }
       }
     }
-    throw NoSuchElementException("Do Death Note present with the given id")
+    
+    throw DataNotFoundException("Do Death Note present with the given id")
+  }
+  
+  override fun getOwnershipHistory(id: Long): List<DeathNoteHistory> {
+    return deathNoteService.findNotebook(id)?.let { deathNote ->
+      deathNoteHistoryRepo.findAllByDeathNoteOrderById(deathNote)
+    } ?: throw DataNotFoundException("Do Death Note present with the given id")
   }
   
   @Transactional(propagation = Propagation.REQUIRES_NEW)

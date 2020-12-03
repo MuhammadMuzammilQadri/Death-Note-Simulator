@@ -8,5 +8,5 @@ import org.springframework.data.repository.CrudRepository
  * Created by Muzammil on 11/29/20.
  */
 interface MemoryRepo : CrudRepository<Memory, Long> {
-  fun findAllByOwnerPersonOrderById(ownerPerson: Person) : List<Memory>
+  fun findAllByOwnerPersonOrderById(ownerPerson: Person): List<Memory>
 }
