@@ -65,12 +65,8 @@ class OwnerService : IOwnerService {
   @Transactional(propagation = Propagation.REQUIRED)
   override fun killPerson(ownerName: String, personToKill: String) {
     getOwner(ownerName)?.let { owner ->
-      // TODO: Change to SQL command
-      personService.getPerson(personToKill).let { killedPerson ->
-        killedPerson.isAlive = false
-        personRepo.save(killedPerson)
-        addKillToOwnerMemory(owner, killedPerson)
-      }
+      personRepo.updateIsAliveStatus(personToKill, false)
+      addKillToOwnerMemory(owner, personService.getPerson(name = personToKill))
     } ?: throw DataNotFoundException("No owner exists with the specified name: $ownerName")
   }
   
