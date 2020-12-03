@@ -2,6 +2,7 @@ package com.muzammil.death_note_simulator
 
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.owner.IOwnerService
 import com.muzammil.death_note_simulator.services.person.IPersonService
@@ -26,8 +27,12 @@ class SeedersManager {
   
   val logger = logger()
   
+  @Autowired
+  lateinit var reposManager: ReposManager
+  
   @PostConstruct
   fun seed() {
+    reposManager.deleteDataFromAllRepos()
     val person = personService.savePerson(Person(name = "Bad Guy"))
     val owner = createOwner()
     logger.warn("Initialized seeders...")

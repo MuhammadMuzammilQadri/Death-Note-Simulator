@@ -1,7 +1,7 @@
 package com.muzammil.death_note_simulator.services.deathnote
 
-import com.muzammil.death_note_simulator.BaseTest
 import com.muzammil.death_note_simulator.models.DeathNote
+import com.muzammil.death_note_simulator.repos.ReposManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -13,14 +13,17 @@ import org.springframework.boot.test.context.SpringBootTest
  * Created by Muzammil on 11/29/20.
  */
 @SpringBootTest
-class DeathNoteServiceTest : BaseTest() {
+class DeathNoteServiceTest {
   
   @Autowired
   lateinit var deathNoteService: IDeathNoteService
   
+  @Autowired
+  lateinit var reposManager: ReposManager
+  
   @BeforeEach
-  override fun beforeEachSetup() {
-    super.beforeEachSetup()
+  fun beforeEachSetup() {
+    reposManager.deleteDataFromAllRepos()
   }
   
   @Test

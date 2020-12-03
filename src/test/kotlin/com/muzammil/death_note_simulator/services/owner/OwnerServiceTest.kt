@@ -1,8 +1,8 @@
 package com.muzammil.death_note_simulator.services.owner
 
-import com.muzammil.death_note_simulator.BaseTest
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
  * Created by Muzammil on 11/30/20.
  */
 @SpringBootTest
-class OwnerServiceTest : BaseTest() {
+class OwnerServiceTest {
   @Autowired
   lateinit var deathNoteService: IDeathNoteService
   
@@ -25,13 +25,16 @@ class OwnerServiceTest : BaseTest() {
   @Autowired
   lateinit var ownerService: IOwnerService
   
+  @Autowired
+  lateinit var reposManager: ReposManager
+  
   @BeforeEach
-  override fun beforeEachSetup() {
-    super.beforeEachSetup()
+  fun beforeEachSetup() {
+    reposManager.deleteDataFromAllRepos()
   }
   
   @Test
-  fun givenAPerson_createAOwnerToKillHim() {
+  fun givenPersonAndOwner_thenKillPerson_assertPersonIsNotAlive() {
     // given
     val person = personService.savePerson(Person(name = "Bad Guy"))
     val owner = createOwner()
@@ -45,7 +48,7 @@ class OwnerServiceTest : BaseTest() {
   }
   
   @Test
-  fun givenAPersonsList_killThemAndVerifiesTheList() {
+  fun givenAPersonsList_thenKillThem_assertOwnerHasMemories() {
     // given
     val person1 = personService.savePerson(Person(name = "Bad Guy1"))
     val person2 = personService.savePerson(Person(name = "Bad Guy2"))
@@ -74,7 +77,7 @@ class OwnerServiceTest : BaseTest() {
   }
   
   @Test
-  fun creatADeathNote_thenChangeOwners_thenVerifiesThatHistorySaves() {
+  fun givenDeathNote_thenChangeOwners_assertHistorySaves() {
     // given
     val deathNote = createDeathNote()
     val firstOwner = personService.savePerson(Person(name = "Light Yagami"))
@@ -103,7 +106,7 @@ class OwnerServiceTest : BaseTest() {
   }
   
   private fun createDeathNote(): DeathNote {
-    return deathNoteService.createOrUpdateNotebook(DeathNote(name = "Ryuk Notebook"))
+    return deathNoteService
+      .createOrUpdateNotebook(DeathNote(name = "Ryuk Notebook"))
   }
-  
 }
