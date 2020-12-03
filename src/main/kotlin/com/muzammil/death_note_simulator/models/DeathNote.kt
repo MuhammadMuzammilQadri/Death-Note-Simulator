@@ -13,5 +13,5 @@ class DeathNote(
   var id: Long? = null,
   var name: String,
   @ManyToOne
-  @JoinColumn(name = "owner_id")
+  @JoinColumn(name = "owner_id", unique = true)
   var owner: Person? = null)

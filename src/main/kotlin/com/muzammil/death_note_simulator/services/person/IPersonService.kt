@@ -10,9 +10,12 @@ interface IPersonService {
   fun saveAll(persons: Iterable<Person>): Iterable<Person>
   fun getPerson(name: String,
                 shouldFetchFaces: Boolean = false,
-                shouldFetchDeathNotes: Boolean = false): Person?
+                shouldFetchDeathNotes: Boolean = false): Person
   
   fun deleteAll()
-  fun getPersonById(personId: Long): Person?
+  fun getPersonById(personId: Long,
+                    shouldFetchFaces: Boolean = false,
+                    shouldFetchDeathNotes: Boolean = false): Person
+  
   fun findAllByDeathNotesNotNull(): Set<Person>
 }

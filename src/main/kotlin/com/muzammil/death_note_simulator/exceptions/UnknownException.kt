@@ -6,6 +6,6 @@ import org.springframework.web.client.HttpServerErrorException
 /**
  * Created by Muzammil on 12/3/20.
  */
-class DataNotFoundException(message: String)
-  : HttpServerErrorException(HttpStatus.NOT_FOUND, message) {
+class UnknownException(message: String)
+  : HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, message) {
 }

@@ -1,5 +1,6 @@
 package com.muzammil.death_note_simulator.services.deathnote
 
+import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,8 +20,9 @@ class DeathNoteService : IDeathNoteService {
   }
   
   @Transactional(readOnly = true)
-  override fun findNotebook(deathNoteId: Long): DeathNote? {
-    return deathNoteRepo.findById(deathNoteId).get()
+  override fun findNotebook(deathNoteId: Long): DeathNote {
+    return deathNoteRepo.findById(deathNoteId).orElse(null)
+           ?: throw DataNotFoundException("No Death Note present with the given id")
   }
   
   @Transactional(readOnly = true)

@@ -8,6 +8,6 @@ import com.muzammil.death_note_simulator.models.DeathNote
 interface IDeathNoteService {
   fun createOrUpdateNotebook(deathNote: DeathNote): DeathNote
   fun listNotebooks(): List<DeathNote>
-  fun findNotebook(deathNoteId: Long): DeathNote?
+  fun findNotebook(deathNoteId: Long): DeathNote
   fun deleteAll()
 }

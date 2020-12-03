@@ -34,6 +34,23 @@ class OwnerServiceTest {
   }
   
   @Test
+  fun createAPerson_thenMakeHimOwner_assertOwnership() {
+    // given
+    val deathNote = createDeathNote()
+    var owner = personService.savePerson(Person(name = "Light Yagami"))
+    
+    // then
+    ownerService.makeOwner(deathNote.id!!, owner.id!!)
+    
+    // assert
+    val ownersList = ownerService.listOwners()
+    owner = personService.getPerson(ownersList.first().name,
+                                    shouldFetchDeathNotes = true)!!
+    assertEquals(1, ownersList.size)
+    assertEquals(1, owner.deathNotes.size)
+  }
+  
+  @Test
   fun givenPersonAndOwner_thenKillPerson_assertPersonIsNotAlive() {
     // given
     val person = personService.savePerson(Person(name = "Bad Guy"))
@@ -54,7 +71,6 @@ class OwnerServiceTest {
     val person2 = personService.savePerson(Person(name = "Bad Guy2"))
     val person3 = personService.savePerson(Person(name = "Bad Guy3"))
     val person4 = personService.savePerson(Person(name = "Bad Guy4"))
-    
     val owner = createOwner()
     
     // then
@@ -68,7 +84,6 @@ class OwnerServiceTest {
     val killedPersons = ownerMemories.map { memory ->
       memory.killedPerson
     }
-    
     assertEquals(4, ownerMemories.size)
     assertEquals(person1.id, killedPersons[0]?.id)
     assertEquals(person2.id, killedPersons[1]?.id)
@@ -82,10 +97,8 @@ class OwnerServiceTest {
     val deathNote = createDeathNote()
     val firstOwner = personService.savePerson(Person(name = "Light Yagami"))
     ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
-    
     val secondOwner = personService.savePerson(Person(name = "Misa"))
     ownerService.makeOwner(deathNote.id!!, secondOwner.id!!)
-    
     ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
     
     // then
@@ -98,11 +111,32 @@ class OwnerServiceTest {
     assertEquals(firstOwner.id, ownershipHistory[2].owner?.id)
   }
   
+  @Test
+  fun givenAPersonsList_thenKillThemAndRemoveOwner_assertOwnerHasNoMemories() {
+    // given
+    val person1 = personService.savePerson(Person(name = "Bad Guy1"))
+    val person2 = personService.savePerson(Person(name = "Bad Guy2"))
+    val person3 = personService.savePerson(Person(name = "Bad Guy3"))
+    val person4 = personService.savePerson(Person(name = "Bad Guy4"))
+    val owner = createOwner()
+    
+    // then
+    ownerService.killPerson(owner.name, person1.name)
+    ownerService.killPerson(owner.name, person2.name)
+    ownerService.killPerson(owner.name, person3.name)
+    ownerService.killPerson(owner.name, person4.name)
+    val newOwner = personService.savePerson(Person(name = "Misa"))
+    ownerService.makeOwner(owner.deathNotes.first().id!!, newOwner.id!!)
+    
+    // assert
+    val ownerMemories = ownerService.getOwnerMemories(owner)
+    assertEquals(0, ownerMemories.size)
+  }
+  
   private fun createOwner(): Person {
     val deathNote = createDeathNote()
     val owner = personService.savePerson(Person(name = "Light Yagami"))
-    ownerService.makeOwner(deathNote.id!!, owner.id!!)
-    return owner
+    return ownerService.makeOwner(deathNote.id!!, owner.id!!)
   }
   
   private fun createDeathNote(): DeathNote {
