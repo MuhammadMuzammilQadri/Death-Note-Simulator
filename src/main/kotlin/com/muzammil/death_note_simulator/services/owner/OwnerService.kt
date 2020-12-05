@@ -29,27 +29,17 @@ class OwnerService : IOwnerService {
   @Autowired
   lateinit var memoryRepo: MemoryRepo
   
-  @Autowired
-  lateinit var deathNoteHistoryRepo: DeathNoteHistoryRepo
-  
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun makeOwner(deathNoteId: Long, personId: Long): Person {
     deathNoteService.findNotebook(deathNoteId).also { deathNote ->
       personService.getPersonById(personId).also { person ->
         deathNote.owner = person
-        deathNoteHistoryRepo.save(DeathNoteHistory(deathNote = deathNote,
-                                                   owner = person))
         deathNoteService.createOrUpdateNotebook(deathNote)
         return personService.getPersonById(personId,
                                            shouldFetchFaces = true,
                                            shouldFetchDeathNotes = true)
       }
     }
-  }
-  
-  override fun getOwnershipHistory(id: Long): List<DeathNoteHistory> {
-    return deathNoteHistoryRepo.findAllByDeathNoteOrderById(
-      deathNoteService.findNotebook(id))
   }
   
   @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -59,14 +49,14 @@ class OwnerService : IOwnerService {
   
   @Transactional(readOnly = true)
   override fun listOwners(): Set<Person> {
-    return personService.findAllByDeathNotesNotNull()
+    return personRepo.findAllByDeathNotesNotNull()
   }
   
   @Transactional(propagation = Propagation.REQUIRED)
   override fun killPerson(ownerName: String, personToKill: String) {
     getOwner(ownerName)?.let { owner ->
       personRepo.updateIsAliveStatus(personToKill, false)
-      addKillToOwnerMemory(owner, personService.getPerson(name = personToKill))
+      addKillToOwnerMemory(owner, personService.getPersonByName(name = personToKill))
     } ?: throw DataNotFoundException("No owner exists with the specified name: $ownerName")
   }
   

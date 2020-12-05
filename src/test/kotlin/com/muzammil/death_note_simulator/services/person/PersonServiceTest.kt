@@ -38,7 +38,7 @@ class PersonServiceTest {
     personYagami.facesSeen = mutableSetOf(personLight, personL)
     personService.savePerson(personYagami)
     
-    val fetchedPerson = personService.getPerson("Yagami", shouldFetchFaces = true)
+    val fetchedPerson = personService.getPersonByName("Yagami", shouldFetchFaces = true)
     
     assertNotNull(fetchedPerson)
     assertEquals(personYagami.id, fetchedPerson?.id)

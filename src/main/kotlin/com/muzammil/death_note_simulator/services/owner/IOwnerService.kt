@@ -11,5 +11,4 @@ interface IOwnerService {
   fun killPerson(ownerName: String, personToKill: String)
   fun deleteAll()
   fun getOwnerMemories(owner: Person): List<Memory>
-  fun getOwnershipHistory(id: Long): List<DeathNoteHistory>
 }

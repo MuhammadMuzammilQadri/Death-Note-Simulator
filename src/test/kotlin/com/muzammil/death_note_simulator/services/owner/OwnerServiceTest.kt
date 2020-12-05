@@ -44,8 +44,8 @@ class OwnerServiceTest {
     
     // assert
     val ownersList = ownerService.listOwners()
-    owner = personService.getPerson(ownersList.first().name,
-                                    shouldFetchDeathNotes = true)!!
+    owner = personService.getPersonByName(ownersList.first().name,
+                                          shouldFetchDeathNotes = true)!!
     assertEquals(1, ownersList.size)
     assertEquals(1, owner.deathNotes.size)
   }
@@ -61,7 +61,7 @@ class OwnerServiceTest {
     
     // assert
     assertEquals(1, ownerService.listOwners().size)
-    assertEquals(false, personService.getPerson(person.name)?.isAlive)
+    assertEquals(false, personService.getPersonByName(person.name)?.isAlive)
   }
   
   @Test
@@ -89,26 +89,6 @@ class OwnerServiceTest {
     assertEquals(person2.id, killedPersons[1]?.id)
     assertEquals(person3.id, killedPersons[2]?.id)
     assertEquals(person4.id, killedPersons[3]?.id)
-  }
-  
-  @Test
-  fun givenDeathNote_thenChangeOwners_assertHistorySaves() {
-    // given
-    val deathNote = createDeathNote()
-    val firstOwner = personService.savePerson(Person(name = "Light Yagami"))
-    ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
-    val secondOwner = personService.savePerson(Person(name = "Misa"))
-    ownerService.makeOwner(deathNote.id!!, secondOwner.id!!)
-    ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
-    
-    // then
-    val ownershipHistory = ownerService.getOwnershipHistory(deathNote.id!!)
-    
-    // assert
-    assertEquals(3, ownershipHistory.size)
-    assertEquals(firstOwner.id, ownershipHistory[0].owner?.id)
-    assertEquals(secondOwner.id, ownershipHistory[1].owner?.id)
-    assertEquals(firstOwner.id, ownershipHistory[2].owner?.id)
   }
   
   @Test

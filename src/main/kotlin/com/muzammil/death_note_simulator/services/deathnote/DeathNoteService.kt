@@ -2,7 +2,9 @@ package com.muzammil.death_note_simulator.services.deathnote
 
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
+import com.muzammil.death_note_simulator.models.DeathNoteHistory
 import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
+import com.muzammil.death_note_simulator.repos.deathnote_history.DeathNoteHistoryRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
@@ -14,8 +16,15 @@ class DeathNoteService : IDeathNoteService {
   @Autowired
   lateinit var deathNoteRepo: DeathNoteRepo
   
+  @Autowired
+  lateinit var deathNoteHistoryRepo: DeathNoteHistoryRepo
+  
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   override fun createOrUpdateNotebook(deathNote: DeathNote): DeathNote {
+    deathNote.owner?.let {
+      deathNoteHistoryRepo.save(DeathNoteHistory(deathNote = deathNote,
+                                                 owner = it))
+    }
     return deathNoteRepo.save(deathNote)
   }
   
@@ -35,4 +44,8 @@ class DeathNoteService : IDeathNoteService {
     deathNoteRepo.deleteAll()
   }
   
+  @Transactional
+  override fun getOwnershipHistoryOf(notebookId: Long): List<DeathNoteHistory> {
+    return deathNoteHistoryRepo.findAllByDeathNoteOrderById(findNotebook(notebookId))
+  }
 }

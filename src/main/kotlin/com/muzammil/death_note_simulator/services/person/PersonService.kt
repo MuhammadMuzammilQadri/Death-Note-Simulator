@@ -30,9 +30,9 @@ class PersonService : IPersonService {
   }
   
   @Transactional(readOnly = true)
-  override fun getPerson(name: String,
-                         shouldFetchFaces: Boolean,
-                         shouldFetchDeathNotes: Boolean): Person {
+  override fun getPersonByName(name: String,
+                               shouldFetchFaces: Boolean,
+                               shouldFetchDeathNotes: Boolean): Person {
     return personRepo.findByName(name)?.also {
       if (shouldFetchFaces) {
         it.facesSeen.size
@@ -55,10 +55,5 @@ class PersonService : IPersonService {
         it.deathNotes.size
       }
     } ?: throw DataNotFoundException("Person not found with the given id: $personId")
-  }
-  
-  @Transactional(readOnly = true)
-  override fun findAllByDeathNotesNotNull(): Set<Person> {
-    return personRepo.findAllByDeathNotesNotNull()
   }
 }
