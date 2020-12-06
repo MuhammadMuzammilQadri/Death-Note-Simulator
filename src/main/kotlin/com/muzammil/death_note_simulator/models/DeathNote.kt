@@ -11,6 +11,7 @@ class DeathNote(
   @GeneratedValue
   @Id
   var id: Long? = null,
+  @Column(unique = true)
   var name: String,
   @ManyToOne
   @JoinColumn(name = "owner_id", unique = true)

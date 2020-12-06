@@ -5,11 +5,14 @@ import com.muzammil.death_note_simulator.models.Person
 import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
+import org.hibernate.LazyInitializationException
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.dao.InvalidDataAccessApiUsageException
 
 /**
  * Created by Muzammil on 11/30/20.
@@ -31,6 +34,22 @@ class OwnerServiceTest {
   @BeforeEach
   fun beforeEachSetup() {
     reposManager.deleteDataFromAllRepos()
+  }
+  
+  @Test
+  fun createAPerson_thenMakeHimOwner_assertOwnersDeathNotesAreFetchingLazy() {
+    // given
+    createDeathNote().let { deathNote ->
+      personService.savePerson(Person(name = "Light Yagami")).let {
+        // then
+        ownerService.makeOwner(deathNote.id!!, it.id!!)
+      }
+      // assert
+      val fetchedDeathNote = deathNoteService.findNotebook(deathNoteId = deathNote.id!!)
+      Assertions.assertThrows(LazyInitializationException::class.java) {
+        fetchedDeathNote.owner?.deathNotes?.size
+      }
+    }
   }
   
   @Test
