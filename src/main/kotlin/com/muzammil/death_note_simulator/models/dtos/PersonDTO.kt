@@ -5,7 +5,7 @@ package com.muzammil.death_note_simulator.models.dtos
  */
 class PersonDTO(
   var id: Long? = null,
-  var name: String) {
+  var name: String? = null) {
   
-  constructor() : this(0, "")
+  constructor(): this(null, null)
 }

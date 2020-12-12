@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.controllers.deathnote
+package com.muzammil.death_note_simulator.controllers.exceptioinHandler
 
 import com.muzammil.death_note_simulator.models.ApiError
 import org.springframework.dao.DataAccessException

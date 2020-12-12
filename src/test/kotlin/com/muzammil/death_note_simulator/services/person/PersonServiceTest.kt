@@ -31,13 +31,24 @@ class PersonServiceTest {
   @Test
   fun createAUser_addFaces_thenFindByName() {
     val personLight = Person(name = "Light")
-    val personYagami = Person(name = "Yagami")
+    var personYagami = Person(name = "Yagami")
     val personL = Person(name = "L")
     
     personService.saveAll(listOf(personLight, personYagami, personL))
-    personYagami.facesSeen = mutableSetOf(personLight, personL)
+    personYagami.facesSeen = mutableSetOf(personLight)
+    
+    // then refetch person from db
+    personService.savePerson(personYagami).also {
+      personYagami = personService.getPersonById(it.id!!, shouldFetchFaces = true)
+    }
+    
+    // then add more faces
+    personYagami.facesSeen = personYagami.facesSeen.toMutableSet().also {
+      it.addAll(mutableSetOf(personL))
+    }
     personService.savePerson(personYagami)
     
+    // assert
     val fetchedPerson = personService.getPersonByName("Yagami", shouldFetchFaces = true)
     
     assertNotNull(fetchedPerson)

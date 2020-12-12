@@ -15,4 +15,5 @@ interface IPersonService {
   fun getPersonById(personId: Long,
                     shouldFetchFaces: Boolean = false,
                     shouldFetchDeathNotes: Boolean = false): Person
+  fun listPersons(): List<Person>
 }

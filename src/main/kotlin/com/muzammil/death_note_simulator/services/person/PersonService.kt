@@ -43,6 +43,10 @@ class PersonService : IPersonService {
     } ?: throw DataNotFoundException("Person not found with the given name: $name")
   }
   
+  override fun listPersons(): List<Person> {
+    return personRepo.findAll().toList()
+  }
+  
   @Transactional(readOnly = true)
   override fun getPersonById(personId: Long,
                              shouldFetchFaces: Boolean,

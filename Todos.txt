@@ -35,3 +35,6 @@ Migrations Testing:
 
 Convert from H2 to SQL
 ======================
+
+
+* Change service methods from accepting POJOS to accepting ids

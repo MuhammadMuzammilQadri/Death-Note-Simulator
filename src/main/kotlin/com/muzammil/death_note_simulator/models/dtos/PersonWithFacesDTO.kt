@@ -3,10 +3,9 @@ package com.muzammil.death_note_simulator.models.dtos
 /**
  * Created by Muzammil on 12/9/20.
  */
-class DeathNoteDTO(
+class PersonWithFacesDTO(
   var id: Long? = null,
   var name: String? = null,
-  var owner: PersonDTO?) {
-  
-  constructor() : this(0, "", null)
+  var facesSeen: Set<PersonDTO> = mutableSetOf()) {
+  constructor() : this(null, null)
 }
