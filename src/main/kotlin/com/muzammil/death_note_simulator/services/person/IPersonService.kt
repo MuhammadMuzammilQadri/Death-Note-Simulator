@@ -16,4 +16,5 @@ interface IPersonService {
                     shouldFetchFaces: Boolean = false,
                     shouldFetchDeathNotes: Boolean = false): Person
   fun listPersons(): List<Person>
+  fun addFaceToPerson(id: Long?, faceIds: Array<Long?>): Person
 }

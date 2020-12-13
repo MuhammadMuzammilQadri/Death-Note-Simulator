@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class PersonService : IPersonService {
   
+  private val ID_MUST_NOT_BE_NULL = "The given id must not be null!"
+  
   @Autowired
   lateinit var personRepo: PersonRepo
   
@@ -59,5 +61,17 @@ class PersonService : IPersonService {
         it.deathNotes.size
       }
     } ?: throw DataNotFoundException("Person not found with the given id: $personId")
+  }
+  
+  @Transactional
+  override fun addFaceToPerson(id: Long?, faceIds: Array<Long?>): Person {
+    return personRepo.findById(id!!).orElse(null)?.let {
+      it.facesSeen = it.facesSeen.toMutableSet().also {
+        it.addAll(faceIds.map {
+          Person(id = it, name = "")
+        })
+      }
+      savePerson(it)
+    } ?: throw DataNotFoundException("Person not found with the given id: $id")
   }
 }

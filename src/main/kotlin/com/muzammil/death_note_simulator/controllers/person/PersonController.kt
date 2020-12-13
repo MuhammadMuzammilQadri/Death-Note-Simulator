@@ -52,17 +52,10 @@ class PersonController {
                      id: Long,
                      @RequestBody
                      body: PersonIdListDTO): PersonWithFacesDTO {
-    personService.getPersonById(id,
-                                shouldFetchFaces = true).also { person ->
-      person.facesSeen = person.facesSeen.toMutableSet().also {
-        it.addAll(body.facesList.map {
-          Person(it.id, name = "")
-        })
-      }
-    }.let {
-      return personService.savePerson(it).let {
+    return personService
+      .addFaceToPerson(id, body.facesList.map { it.id }.toTypedArray())
+      .let {
         modelMapper.map(it, PersonWithFacesDTO::class.java)
       }
-    }
   }
 }
