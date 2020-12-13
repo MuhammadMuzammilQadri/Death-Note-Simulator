@@ -1,15 +1,15 @@
 REST Services:
 ================
-* POST: v1/deathnote/create
+* POST: v1/deathnote/create **(DONE)**
     - name of the deathnote
-* GET: v1/deathnote/ownerslist/id
+* GET: v1/deathnote/id **(DONE)**
 
 
-* GET: v1/person/list?withseenfaces
-* POST: v1/person
+* GET: v1/person/list?withseenfaces **(DONE)**
+* POST: v1/person **(DONE)**
     - name
     - facesSeen (Optional)
-* PUT: v1/person/addfacetoseen
+* PUT: v1/person/addfacetoseen **(DONE)**
     - person id who saw the face
     - id of the person whose face has been seen
 

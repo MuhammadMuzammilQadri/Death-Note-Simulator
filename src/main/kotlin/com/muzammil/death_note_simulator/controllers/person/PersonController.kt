@@ -31,10 +31,19 @@ class PersonController {
   }
   
   @GetMapping(value = ["list"])
-  fun list(): PersonsListDTO {
-    return PersonsListDTO().also {
-      it.data = personService.listPersons().map {
-        modelMapper.map(it, PersonDTO::class.java)
+  fun list(@RequestParam(defaultValue = "false")
+           withseenfaces: Boolean): PersonsListDTO {
+    return if (withseenfaces) {
+      PersonsListWithFacesDTO().also {
+        it.data = personService.listPersons(true).map { p ->
+          modelMapper.map(p, PersonWithFacesDTO::class.java)
+        }
+      }
+    } else {
+      PersonsListWithoutFacesDTO().also {
+        it.data = personService.listPersons().map { p ->
+          modelMapper.map(p, PersonDTO::class.java)
+        }
       }
     }
   }

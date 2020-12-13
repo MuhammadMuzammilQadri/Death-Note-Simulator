@@ -11,10 +11,14 @@ interface IPersonService {
   fun getPersonByName(name: String,
                       shouldFetchFaces: Boolean = false,
                       shouldFetchDeathNotes: Boolean = false): Person
+  
   fun deleteAll()
   fun getPersonById(personId: Long,
                     shouldFetchFaces: Boolean = false,
                     shouldFetchDeathNotes: Boolean = false): Person
-  fun listPersons(): List<Person>
+  
+  fun listPersons(shouldFetchFaces: Boolean = false,
+                  shouldFetchDeathNotes: Boolean = false): List<Person>
+  
   fun addFaceToPerson(id: Long?, faceIds: Array<Long?>): Person
 }

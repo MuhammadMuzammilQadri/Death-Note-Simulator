@@ -45,8 +45,21 @@ class PersonService : IPersonService {
     } ?: throw DataNotFoundException("Person not found with the given name: $name")
   }
   
-  override fun listPersons(): List<Person> {
-    return personRepo.findAll().toList()
+  @Transactional(readOnly = true)
+  override fun listPersons(shouldFetchFaces: Boolean,
+                           shouldFetchDeathNotes: Boolean): List<Person> {
+    return personRepo.findAll().also {
+      if (shouldFetchFaces || shouldFetchDeathNotes) {
+        it.forEach { person ->
+          if (shouldFetchFaces) {
+            person.facesSeen.size
+          }
+          if (shouldFetchDeathNotes) {
+            person.deathNotes.size
+          }
+        }
+      }
+    }.toList()
   }
   
   @Transactional(readOnly = true)
