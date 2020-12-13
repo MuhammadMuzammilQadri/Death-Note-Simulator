@@ -25,16 +25,20 @@ class DeathNoteController {
   @PostMapping(value = ["create/{name}"])
   fun create(@PathVariable
              name: String): DeathNoteDTO {
-    return modelMapper.map(deathNoteService.createOrUpdateNotebook(DeathNote(name = name)),
-                           DeathNoteDTO::class.java)
+    return deathNoteService
+      .createOrUpdateNotebook(DeathNote(name = name))
+      .let {
+        modelMapper.map(it, DeathNoteDTO::class.java)
+      }
   }
   
   @GetMapping(value = ["list"])
   fun list(): DeathNotesListDTO {
-    val notebooks = deathNoteService.listNotebooks()
-    return DeathNotesListDTO(notebooks.map {
+    return deathNoteService.listNotebooks().map {
       modelMapper.map(it, DeathNoteExceptOwnerDTO::class.java)
-    })
+    }.let {
+      DeathNotesListDTO(it)
+    }
   }
   
   @GetMapping(value = ["{id}"])
