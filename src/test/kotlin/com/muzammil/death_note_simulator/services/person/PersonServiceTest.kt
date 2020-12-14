@@ -2,9 +2,11 @@ package com.muzammil.death_note_simulator.services.person
 
 import com.muzammil.death_note_simulator.models.Person
 import com.muzammil.death_note_simulator.repos.ReposManager
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
@@ -46,9 +48,9 @@ class PersonServiceTest {
     
     assertNotNull(fetchedPerson)
     assertEquals(personYagami.id, fetchedPerson.id)
-    assertEquals(2, fetchedPerson.facesSeen.size)
-    assertNotNull(fetchedPerson.facesSeen.find { it.name == personLight.name })
-    assertNotNull(fetchedPerson.facesSeen.find { it.name == personL.name })
+    assertEquals(2, fetchedPerson.facesSeen?.size)
+    assertNotNull(fetchedPerson.facesSeen?.find { it.name == personLight.name })
+    assertNotNull(fetchedPerson.facesSeen?.find { it.name == personL.name })
   }
   
   @Test
@@ -59,7 +61,7 @@ class PersonServiceTest {
     
     // then add a non-existent person's face
     // and assert exception occurs
-    assertThrows(JpaObjectRetrievalFailureException::class.java) {
+    assertThrows<JpaObjectRetrievalFailureException> {
       personService.addFaceToPerson(personYagami.id, arrayOf(2335))
     }
   }

@@ -14,7 +14,7 @@ REST Services:
     - id of the person whose face has been seen
 
 
-* GET: v1/owner/list
+* GET: v1/owner/list **(DONE)**
 * PUT: v1/owner/killperson
     - owner of death note id
     - name of the person to kill

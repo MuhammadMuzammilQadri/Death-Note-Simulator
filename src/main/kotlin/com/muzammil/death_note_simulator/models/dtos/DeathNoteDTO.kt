@@ -6,7 +6,7 @@ package com.muzammil.death_note_simulator.models.dtos
 class DeathNoteDTO(
   var id: Long? = null,
   var name: String? = null,
-  var owner: PersonDTO?) {
+  var owner: PersonDTO?) : BaseDTO() {
   
   constructor() : this(0, "", null)
 }

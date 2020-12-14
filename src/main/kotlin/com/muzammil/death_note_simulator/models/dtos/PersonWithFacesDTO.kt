@@ -6,6 +6,6 @@ package com.muzammil.death_note_simulator.models.dtos
 class PersonWithFacesDTO(
   var id: Long? = null,
   var name: String? = null,
-  var facesSeen: Set<PersonDTO> = mutableSetOf()) {
+  var facesSeen: Set<PersonDTO> = mutableSetOf()) : BaseDTO() {
   constructor() : this(null, null)
 }

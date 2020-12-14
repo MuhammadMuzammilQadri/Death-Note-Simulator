@@ -12,9 +12,9 @@ class Person(
   @Id
   var id: Long? = null,
   @Column(unique = true)
-  var name: String,
+  var name: String? = null,
   var isAlive: Boolean = true,
   @ManyToMany
-  var facesSeen: Set<Person> = mutableSetOf(),
+  var facesSeen: Set<Person>? = mutableSetOf(),
   @OneToMany(mappedBy = "owner")
-  var deathNotes: Set<DeathNote> = mutableSetOf())
+  var deathNotes: Set<DeathNote>? = mutableSetOf())

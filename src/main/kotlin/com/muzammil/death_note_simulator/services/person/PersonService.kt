@@ -37,10 +37,10 @@ class PersonService : IPersonService {
                                shouldFetchDeathNotes: Boolean): Person {
     return personRepo.findByName(name)?.also {
       if (shouldFetchFaces) {
-        it.facesSeen.size
+        it.facesSeen?.size
       }
       if (shouldFetchDeathNotes) {
-        it.deathNotes.size
+        it.deathNotes?.size
       }
     } ?: throw DataNotFoundException("Person not found with the given name: $name")
   }
@@ -52,10 +52,10 @@ class PersonService : IPersonService {
       if (shouldFetchFaces || shouldFetchDeathNotes) {
         it.forEach { person ->
           if (shouldFetchFaces) {
-            person.facesSeen.size
+            person.facesSeen?.size
           }
           if (shouldFetchDeathNotes) {
-            person.deathNotes.size
+            person.deathNotes?.size
           }
         }
       }
@@ -68,10 +68,10 @@ class PersonService : IPersonService {
                              shouldFetchDeathNotes: Boolean): Person {
     return personRepo.findById(personId).orElse(null)?.also {
       if (shouldFetchFaces) {
-        it.facesSeen.size
+        it.facesSeen?.size
       }
       if (shouldFetchDeathNotes) {
-        it.deathNotes.size
+        it.deathNotes?.size
       }
     } ?: throw DataNotFoundException("Person not found with the given id: $personId")
   }
@@ -79,7 +79,7 @@ class PersonService : IPersonService {
   @Transactional
   override fun addFaceToPerson(id: Long?, faceIds: Array<Long?>): Person {
     return personRepo.findById(id!!).orElse(null)?.let {
-      it.facesSeen = it.facesSeen.toMutableSet().also {
+      it.facesSeen = (it.facesSeen?.toMutableSet() ?: mutableSetOf()).also {
         it.addAll(faceIds.map {
           Person(id = it, name = "")
         })

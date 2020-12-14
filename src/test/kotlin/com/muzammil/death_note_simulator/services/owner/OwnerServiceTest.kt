@@ -1,18 +1,18 @@
 package com.muzammil.death_note_simulator.services.owner
 
+import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.Person
 import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.hibernate.LazyInitializationException
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.dao.InvalidDataAccessApiUsageException
 
 /**
  * Created by Muzammil on 11/30/20.
@@ -46,7 +46,7 @@ class OwnerServiceTest {
       }
       // assert
       val fetchedDeathNote = deathNoteService.findNotebook(deathNoteId = deathNote.id!!)
-      Assertions.assertThrows(LazyInitializationException::class.java) {
+      assertThrows<LazyInitializationException> {
         fetchedDeathNote.owner?.deathNotes?.size
       }
     }
@@ -63,10 +63,10 @@ class OwnerServiceTest {
     
     // assert
     val ownersList = ownerService.listOwners()
-    owner = personService.getPersonByName(ownersList.first().name,
+    owner = personService.getPersonByName(ownersList.first().name ?: "",
                                           shouldFetchDeathNotes = true)!!
     assertEquals(1, ownersList.size)
-    assertEquals(1, owner.deathNotes.size)
+    assertEquals(1, owner.deathNotes?.size)
   }
   
   @Test
@@ -76,11 +76,11 @@ class OwnerServiceTest {
     val owner = createOwner()
     
     // then
-    ownerService.killPerson(owner.name, person.name)
+    ownerService.killPerson(owner.name ?: "", person.name ?: "")
     
     // assert
     assertEquals(1, ownerService.listOwners().size)
-    assertEquals(false, personService.getPersonByName(person.name)?.isAlive)
+    assertEquals(false, personService.getPersonByName(person.name ?: "").isAlive)
   }
   
   @Test
@@ -93,10 +93,10 @@ class OwnerServiceTest {
     val owner = createOwner()
     
     // then
-    ownerService.killPerson(owner.name, person1.name)
-    ownerService.killPerson(owner.name, person2.name)
-    ownerService.killPerson(owner.name, person3.name)
-    ownerService.killPerson(owner.name, person4.name)
+    ownerService.killPerson(owner.name ?: "", person1.name ?: "")
+    ownerService.killPerson(owner.name ?: "", person2.name ?: "")
+    ownerService.killPerson(owner.name ?: "", person3.name ?: "")
+    ownerService.killPerson(owner.name ?: "", person4.name ?: "")
     
     // assert
     val ownerMemories = ownerService.getOwnerMemories(owner)
@@ -120,16 +120,17 @@ class OwnerServiceTest {
     val owner = createOwner()
     
     // then
-    ownerService.killPerson(owner.name, person1.name)
-    ownerService.killPerson(owner.name, person2.name)
-    ownerService.killPerson(owner.name, person3.name)
-    ownerService.killPerson(owner.name, person4.name)
+    ownerService.killPerson(owner.name ?: "", person1.name ?: "")
+    ownerService.killPerson(owner.name ?: "", person2.name ?: "")
+    ownerService.killPerson(owner.name ?: "", person3.name ?: "")
+    ownerService.killPerson(owner.name ?: "", person4.name ?: "")
     val newOwner = personService.savePerson(Person(name = "Misa"))
-    ownerService.makeOwner(owner.deathNotes.first().id!!, newOwner.id!!)
+    ownerService.makeOwner(owner.deathNotes?.first()?.id!!, newOwner.id!!)
     
     // assert
-    val ownerMemories = ownerService.getOwnerMemories(owner)
-    assertEquals(0, ownerMemories.size)
+    assertThrows<DataNotFoundException> {
+      val ownerMemories = ownerService.getOwnerMemories(owner)
+    }
   }
   
   private fun createOwner(): Person {

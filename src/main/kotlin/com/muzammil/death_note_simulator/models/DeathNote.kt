@@ -12,7 +12,7 @@ class DeathNote(
   @Id
   var id: Long? = null,
   @Column(unique = true)
-  var name: String,
-  @ManyToOne
+  var name: String? = null,
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "owner_id", unique = true)
   var owner: Person? = null)

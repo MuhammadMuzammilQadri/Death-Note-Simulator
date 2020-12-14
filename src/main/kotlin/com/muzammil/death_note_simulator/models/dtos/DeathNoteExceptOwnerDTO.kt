@@ -5,7 +5,7 @@ package com.muzammil.death_note_simulator.models.dtos
  */
 class DeathNoteExceptOwnerDTO(
   var id: Long? = null,
-  var name: String? = null) {
+  var name: String? = null) : BaseDTO() {
   
   constructor() : this(0, "")
 }
