@@ -76,7 +76,7 @@ class OwnerServiceTest {
     val owner = createOwner()
     
     // then
-    ownerService.killPerson(owner.name ?: "", person.name ?: "")
+    ownerService.killPerson(owner.id!!, person.id!!)
     
     // assert
     assertEquals(1, ownerService.listOwners().size)
@@ -93,13 +93,13 @@ class OwnerServiceTest {
     val owner = createOwner()
     
     // then
-    ownerService.killPerson(owner.name ?: "", person1.name ?: "")
-    ownerService.killPerson(owner.name ?: "", person2.name ?: "")
-    ownerService.killPerson(owner.name ?: "", person3.name ?: "")
-    ownerService.killPerson(owner.name ?: "", person4.name ?: "")
+    ownerService.killPerson(owner.id!!, person1.id!!)
+    ownerService.killPerson(owner.id!!, person2.id!!)
+    ownerService.killPerson(owner.id!!, person3.id!!)
+    ownerService.killPerson(owner.id!!, person4.id!!)
     
     // assert
-    val ownerMemories = ownerService.getOwnerMemories(owner)
+    val ownerMemories = ownerService.getOwnerMemories(owner.id!!)
     val killedPersons = ownerMemories.map { memory ->
       memory.killedPerson
     }
@@ -120,16 +120,16 @@ class OwnerServiceTest {
     val owner = createOwner()
     
     // then
-    ownerService.killPerson(owner.name ?: "", person1.name ?: "")
-    ownerService.killPerson(owner.name ?: "", person2.name ?: "")
-    ownerService.killPerson(owner.name ?: "", person3.name ?: "")
-    ownerService.killPerson(owner.name ?: "", person4.name ?: "")
+    ownerService.killPerson(owner.id!!, person1.id!!)
+    ownerService.killPerson(owner.id!!, person2.id!!)
+    ownerService.killPerson(owner.id!!, person3.id!!)
+    ownerService.killPerson(owner.id!!, person4.id!!)
     val newOwner = personService.savePerson(Person(name = "Misa"))
     ownerService.makeOwner(owner.deathNotes?.first()?.id!!, newOwner.id!!)
     
     // assert
     assertThrows<DataNotFoundException> {
-      val ownerMemories = ownerService.getOwnerMemories(owner)
+      val ownerMemories = ownerService.getOwnerMemories(owner.id!!)
     }
   }
   

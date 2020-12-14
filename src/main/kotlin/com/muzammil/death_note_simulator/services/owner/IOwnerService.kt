@@ -5,11 +5,11 @@ import com.muzammil.death_note_simulator.models.Person
 
 interface IOwnerService {
   fun makeOwner(deathNoteId: Long, personId: Long): Person
-  fun getOwner(ownerName: String): Person?
+  fun getOwner(id: Long): Person?
   fun listOwners(shouldFetchFaces: Boolean = false,
                  shouldFetchDeathNotes: Boolean = false): List<Person>
   
-  fun killPerson(ownerName: String, personToKill: String)
+  fun killPerson(ownerId: Long, personToKillId: Long)
   fun deleteAll()
-  fun getOwnerMemories(owner: Person): List<Memory>
+  fun getOwnerMemories(ownerId: Long): List<Memory>
 }

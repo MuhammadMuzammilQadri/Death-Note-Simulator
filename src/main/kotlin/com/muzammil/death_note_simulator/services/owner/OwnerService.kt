@@ -70,29 +70,31 @@ class OwnerService : IOwnerService {
   }
   
   @Transactional(propagation = Propagation.REQUIRED)
-  override fun killPerson(ownerName: String, personToKill: String) {
-    getOwner(ownerName)?.let { owner ->
-      personRepo.updateIsAliveStatus(personToKill, false)
-      addKillToOwnerMemory(owner, personService.getPersonByName(name = personToKill))
-    } ?: throw DataNotFoundException("No owner exists with the specified name: $ownerName")
+  override fun killPerson(ownerId: Long, personToKillId: Long) {
+    personRepo.updateIsAliveStatus(personToKillId, false)
+    addKillToOwnerMemory(ownerId, personToKillId)
   }
   
-  override fun getOwner(ownerName: String): Person? {
-    return personRepo.findByNameAndDeathNotesNotNull(ownerName)
+  override fun getOwner(id: Long): Person {
+    return personRepo.findByIdAndDeathNotesNotNull(id)
+           ?: throw DataNotFoundException("No owner exists with the specified id: $id")
   }
   
-  private fun addKillToOwnerMemory(owner: Person, killedPerson: Person) {
-    memoryRepo.save(Memory(deathNote = owner.deathNotes?.first(),
-                           ownerPerson = owner,
-                           killedPerson = killedPerson))
-  }
-  
-  override fun getOwnerMemories(owner: Person): List<Memory> {
-    owner.name?.let {
-      getOwner(it)?.let {
-        return memoryRepo.findAllByOwnerPersonOrderById(owner)
-      }
+  // TODO: Change this - For now making every kill
+  //  from the first notebook in the list of killer's notebooks
+  private fun addKillToOwnerMemory(ownerId: Long, personToKillId: Long) {
+    getOwner(ownerId).let { owner ->
+      owner.deathNotes?.first()?.let { notebook ->
+        memoryRepo.save(Memory(deathNote = notebook,
+                               ownerPerson = owner,
+                               killedPerson = Person(id = personToKillId)))
+      } ?: throw DataNotFoundException("${owner.name} has no DeathNotes")
     }
-    ?: throw DataNotFoundException("No owner exists with the specified name: ${owner.name}")
+  }
+  
+  override fun getOwnerMemories(ownerId: Long): List<Memory> {
+    return getOwner(ownerId).let { owner ->
+      memoryRepo.findAllByOwnerPersonOrderById(owner)
+    }
   }
 }

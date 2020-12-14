@@ -1,5 +1,6 @@
 package com.muzammil.death_note_simulator.controllers.owner
 
+import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.dtos.*
 import com.muzammil.death_note_simulator.services.owner.IOwnerService
 import org.modelmapper.ModelMapper
@@ -22,14 +23,14 @@ class OwnerController {
   
   @GetMapping(value = ["list"])
   fun list(@RequestParam(defaultValue = "false")
-           withseenfaces: Boolean,
+           withSeenFaces: Boolean,
            @RequestParam(defaultValue = "false")
-           withdeathnotes: Boolean): PersonsListDTO {
-    return if (withseenfaces || withdeathnotes) {
+           withDeathNotes: Boolean): PersonsListDTO {
+    return if (withSeenFaces || withDeathNotes) {
       OwnersListWithFacesDTO().also {
         it.data = ownerService
-          .listOwners(shouldFetchFaces = withseenfaces,
-                      shouldFetchDeathNotes = withdeathnotes)
+          .listOwners(shouldFetchFaces = withSeenFaces,
+                      shouldFetchDeathNotes = withDeathNotes)
           .map { p ->
             modelMapper.map(p, OwnerWithFacesDTO::class.java)
           }
@@ -50,4 +51,25 @@ class OwnerController {
       modelMapper.map(it, OwnerWithFacesDTO::class.java)
     }
   }
+  
+  @PutMapping(value = ["killperson"])
+  fun killPerson(@RequestParam
+                 ownerId: Long,
+                 @RequestParam
+                 personToKillId: Long) {
+    return ownerService.killPerson(ownerId, personToKillId)
+  }
+  
+  @GetMapping(value = ["killedpersonslist"])
+  fun killedPersonsList(@RequestParam
+                        ownerId: Long): PersonsListWithoutFacesDTO {
+    return ownerService.getOwnerMemories(ownerId).map { memory ->
+      memory.killedPerson?.let {
+        PersonDTO(it.id, it.name)
+      } ?: throw UnknownException("Strange memory exists without a reference of killed person")
+    }.let {
+      PersonsListWithoutFacesDTO(it)
+    }
+  }
 }
+

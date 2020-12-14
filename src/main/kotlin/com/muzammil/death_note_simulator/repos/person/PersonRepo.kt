@@ -12,12 +12,12 @@ import org.springframework.data.repository.query.Param
 interface PersonRepo : CrudRepository<Person, Long> {
   fun findByName(name: String): Person?
   fun findAllByDeathNotesNotNull(): Set<Person>
-  fun findByNameAndDeathNotesNotNull(name: String): Person?
+  fun findByIdAndDeathNotesNotNull(id: Long): Person?
   
   @Modifying
-  @Query("UPDATE Person p SET p.isAlive = :isAlive WHERE p.name = :name")
-  fun updateIsAliveStatus(@Param("name")
-                          name: String,
+  @Query("UPDATE Person p SET p.isAlive = :isAlive WHERE p.id = :personToKillId")
+  fun updateIsAliveStatus(@Param("personToKillId")
+                          personToKillId: Long,
                           @Param("isAlive")
                           isAlive: Boolean)
 }
