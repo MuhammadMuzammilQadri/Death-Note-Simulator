@@ -41,30 +41,14 @@ class OwnerService : IOwnerService {
   }
   
   @Transactional(readOnly = true)
-  override fun listOwners(shouldFetchFaces: Boolean,
-                          shouldFetchDeathNotes: Boolean): List<Person> {
-    return if (shouldFetchFaces || shouldFetchDeathNotes) {
-      personRepo.findAllByDeathNotesNotNull().also {
-        it.forEach { person ->
-          if (shouldFetchFaces) {
-            person.facesSeen?.size
-          }
-          if (shouldFetchDeathNotes) {
-            person.deathNotes?.size
-          }
-        }
-      }.also {
-        it.forEach { person ->
-          if (!shouldFetchFaces) {
-            person.facesSeen = null
-          }
-          if (!shouldFetchDeathNotes) {
-            person.deathNotes = null
-          }
-        }
-      }.toList()
-    } else {
-      personRepo.findAllByDeathNotesNotNull().toList()
+  override fun listOwners(shouldFetchFaces: Boolean): List<Person> {
+    return when {
+      shouldFetchFaces -> {
+        personRepo.findOwnersWithFaces().toList()
+      }
+      else             -> {
+        personRepo.findOwners().toList()
+      }
     }
     
   }

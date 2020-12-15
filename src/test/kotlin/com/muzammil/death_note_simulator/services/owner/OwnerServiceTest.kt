@@ -62,7 +62,7 @@ class OwnerServiceTest {
     ownerService.makeOwner(deathNote.id!!, owner.id!!)
     
     // assert
-    val ownersList = ownerService.listOwners()
+    val ownersList = ownerService.listOwners(shouldFetchFaces = true)
     owner = personService.getPersonByName(ownersList.first().name ?: "",
                                           shouldFetchDeathNotes = true)!!
     assertEquals(1, ownersList.size)

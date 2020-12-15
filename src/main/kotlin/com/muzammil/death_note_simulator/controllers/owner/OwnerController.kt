@@ -29,8 +29,7 @@ class OwnerController {
     return if (withSeenFaces || withDeathNotes) {
       OwnersListWithFacesDTO().also {
         it.data = ownerService
-          .listOwners(shouldFetchFaces = withSeenFaces,
-                      shouldFetchDeathNotes = withDeathNotes)
+          .listOwners(shouldFetchFaces = withSeenFaces)
           .map { p ->
             modelMapper.map(p, OwnerWithFacesDTO::class.java)
           }

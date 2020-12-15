@@ -20,4 +20,16 @@ interface PersonRepo : CrudRepository<Person, Long> {
                           personToKillId: Long,
                           @Param("isAlive")
                           isAlive: Boolean)
+  
+  
+  @Query("SELECT p FROM Person p " +
+         "INNER JOIN FETCH p.deathNotes dn " +
+         "WHERE p.id = dn.owner.id")
+  fun findOwners(): Set<Person>
+  
+  @Query("SELECT p FROM Person p " +
+         "LEFT JOIN FETCH p.facesSeen fs " +
+         "LEFT JOIN FETCH p.deathNotes dn " +
+         "WHERE p.id = dn.owner.id")
+  fun findOwnersWithFaces(): Set<Person>
 }
