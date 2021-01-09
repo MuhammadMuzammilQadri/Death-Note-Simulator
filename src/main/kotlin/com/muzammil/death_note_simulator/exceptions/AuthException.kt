@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus
 /**
  * Created by Muzammil on 12/3/20.
  */
-class DataNotFoundException(message: String)
-  : AppException(HttpStatus.NOT_FOUND, message) {
+class AuthException(message: String)
+  : AppException(HttpStatus.FORBIDDEN, message) {
 }

@@ -1,6 +1,6 @@
 package com.muzammil.death_note_simulator.controllers.exceptioinHandler
 
-import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
+import com.muzammil.death_note_simulator.exceptions.AppException
 import com.muzammil.death_note_simulator.models.ApiError
 import com.muzammil.death_note_simulator.models.ApiErrorWithList
 import org.springframework.dao.DataAccessException
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.client.RestClientResponseException
 import javax.validation.ConstraintViolationException
 
 /**
@@ -29,17 +28,7 @@ class GlobalExceptionHandler {
                           HttpStatus.NOT_ACCEPTABLE)
   }
   
-  
-  @ExceptionHandler(value = [
-    DataNotFoundException::class])
-  fun dataRetrievalAndNotFoundFailures(ex: RestClientResponseException) =
-    ResponseEntity(ApiError(HttpStatus.NOT_FOUND.value(),
-                            ex.statusText),
-                   HttpStatus.NOT_FOUND)
-  
-  
-  @ExceptionHandler(value = [
-    MethodArgumentNotValidException::class])
+  @ExceptionHandler(value = [MethodArgumentNotValidException::class])
   fun methodArgumentNotValidException(ex: MethodArgumentNotValidException) =
     ex.bindingResult
       .allErrors
@@ -53,8 +42,7 @@ class GlobalExceptionHandler {
       }
   
   
-  @ExceptionHandler(value = [
-    ConstraintViolationException::class])
+  @ExceptionHandler(value = [ConstraintViolationException::class])
   fun constraintViolationFailures(ex: ConstraintViolationException) =
     ex.constraintViolations
       .map {
@@ -66,6 +54,14 @@ class GlobalExceptionHandler {
                        HttpStatus.NOT_ACCEPTABLE)
       }
   
+  
+  @ExceptionHandler(value = [AppException::class])
+  fun appExceptions(ex: AppException)
+    : ResponseEntity<ApiError> {
+    return ResponseEntity(ApiError(ex.statusCode.value(),
+                                   ex.cause?.message ?: "Something bad happened. Try again later"),
+                          ex.statusCode)
+  }
   
   @ExceptionHandler
   fun unHandledFailures(ex: Exception)
