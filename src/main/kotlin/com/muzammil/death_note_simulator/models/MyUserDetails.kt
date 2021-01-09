@@ -6,20 +6,18 @@ import org.springframework.security.core.userdetails.UserDetails
 /**
  * Created by Muzammil on 1/9/21.
  */
-class MyUserDetails(var user: User?) : UserDetails {
-  
-  constructor() : this(null)
+class MyUserDetails(var user: User) : UserDetails {
   
   override fun getAuthorities(): List<SimpleGrantedAuthority>? {
-    return user?.roles?.map { SimpleGrantedAuthority(it.name) }
+    return mutableListOf(SimpleGrantedAuthority(user.roles.value))
   }
   
   override fun isEnabled(): Boolean {
-    return user?.isEnabled!!
+    return true
   }
   
   override fun getUsername(): String {
-    return user?.userName!!
+    return user.name ?: throw Exception("Bad user name")
   }
   
   override fun isCredentialsNonExpired(): Boolean {
@@ -27,7 +25,7 @@ class MyUserDetails(var user: User?) : UserDetails {
   }
   
   override fun getPassword(): String {
-    return user?.password!!
+    return user.password
   }
   
   override fun isAccountNonExpired(): Boolean {

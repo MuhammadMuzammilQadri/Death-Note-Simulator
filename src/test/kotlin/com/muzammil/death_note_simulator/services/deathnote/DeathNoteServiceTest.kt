@@ -1,7 +1,7 @@
 package com.muzammil.death_note_simulator.services.deathnote
 
 import com.muzammil.death_note_simulator.models.DeathNote
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.owner.IOwnerService
 import com.muzammil.death_note_simulator.services.person.IPersonService
@@ -52,9 +52,9 @@ class DeathNoteServiceTest {
   fun givenDeathNote_thenChangeOwners_assertHistorySaves() {
     // given
     val deathNote = createDeathNote()
-    val firstOwner = personService.savePerson(Person(name = "Light Yagami"))
+    val firstOwner = personService.savePerson(User(name = "Light Yagami"))
     ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
-    val secondOwner = personService.savePerson(Person(name = "Misa"))
+    val secondOwner = personService.savePerson(User(name = "Misa"))
     ownerService.makeOwner(deathNote.id!!, secondOwner.id!!)
     ownerService.makeOwner(deathNote.id!!, firstOwner.id!!)
     

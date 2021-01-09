@@ -1,12 +1,11 @@
 package com.muzammil.death_note_simulator.controllers.person
 
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.models.dtos.*
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import javax.validation.*
 
 
 /**
@@ -25,7 +24,7 @@ class PersonController {
   @PostMapping(value = ["create"])
   fun createPerson(@RequestBody
                    body: PersonExceptIdDTO): PersonDTO {
-    return modelMapper.map(body, Person::class.java).let {
+    return modelMapper.map(body, User::class.java).let {
       personService.savePerson(it).let {
         modelMapper.map(it, PersonDTO::class.java)
       }

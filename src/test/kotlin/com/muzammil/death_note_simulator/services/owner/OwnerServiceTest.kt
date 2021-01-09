@@ -2,7 +2,7 @@ package com.muzammil.death_note_simulator.services.owner
 
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
@@ -40,7 +40,7 @@ class OwnerServiceTest {
   fun createAPerson_thenMakeHimOwner_assertOwnersDeathNotesAreFetchingLazy() {
     // given
     createDeathNote().let { deathNote ->
-      personService.savePerson(Person(name = "Light Yagami")).let {
+      personService.savePerson(User(name = "Light Yagami")).let {
         // then
         ownerService.makeOwner(deathNote.id!!, it.id!!)
       }
@@ -56,7 +56,7 @@ class OwnerServiceTest {
   fun createAPerson_thenMakeHimOwner_assertOwnership() {
     // given
     val deathNote = createDeathNote()
-    var owner = personService.savePerson(Person(name = "Light Yagami"))
+    var owner = personService.savePerson(User(name = "Light Yagami"))
     
     // then
     ownerService.makeOwner(deathNote.id!!, owner.id!!)
@@ -72,7 +72,7 @@ class OwnerServiceTest {
   @Test
   fun givenPersonAndOwner_thenKillPerson_assertPersonIsNotAlive() {
     // given
-    val person = personService.savePerson(Person(name = "Bad Guy"))
+    val person = personService.savePerson(User(name = "Bad Guy"))
     val owner = createOwner()
     
     // then
@@ -86,10 +86,10 @@ class OwnerServiceTest {
   @Test
   fun givenAPersonsList_thenKillThem_assertOwnerHasMemories() {
     // given
-    val person1 = personService.savePerson(Person(name = "Bad Guy1"))
-    val person2 = personService.savePerson(Person(name = "Bad Guy2"))
-    val person3 = personService.savePerson(Person(name = "Bad Guy3"))
-    val person4 = personService.savePerson(Person(name = "Bad Guy4"))
+    val person1 = personService.savePerson(User(name = "Bad Guy1"))
+    val person2 = personService.savePerson(User(name = "Bad Guy2"))
+    val person3 = personService.savePerson(User(name = "Bad Guy3"))
+    val person4 = personService.savePerson(User(name = "Bad Guy4"))
     val owner = createOwner()
     
     // then
@@ -113,10 +113,10 @@ class OwnerServiceTest {
   @Test
   fun givenAPersonsList_thenKillThemAndRemoveOwner_assertOwnerHasNoMemories() {
     // given
-    val person1 = personService.savePerson(Person(name = "Bad Guy1"))
-    val person2 = personService.savePerson(Person(name = "Bad Guy2"))
-    val person3 = personService.savePerson(Person(name = "Bad Guy3"))
-    val person4 = personService.savePerson(Person(name = "Bad Guy4"))
+    val person1 = personService.savePerson(User(name = "Bad Guy1"))
+    val person2 = personService.savePerson(User(name = "Bad Guy2"))
+    val person3 = personService.savePerson(User(name = "Bad Guy3"))
+    val person4 = personService.savePerson(User(name = "Bad Guy4"))
     val owner = createOwner()
     
     // then
@@ -124,7 +124,7 @@ class OwnerServiceTest {
     ownerService.killPerson(owner.id!!, person2.id!!)
     ownerService.killPerson(owner.id!!, person3.id!!)
     ownerService.killPerson(owner.id!!, person4.id!!)
-    val newOwner = personService.savePerson(Person(name = "Misa"))
+    val newOwner = personService.savePerson(User(name = "Misa"))
     ownerService.makeOwner(owner.deathNotes?.first()?.id!!, newOwner.id!!)
     
     // assert
@@ -133,9 +133,9 @@ class OwnerServiceTest {
     }
   }
   
-  private fun createOwner(): Person {
+  private fun createOwner(): User {
     val deathNote = createDeathNote()
-    val owner = personService.savePerson(Person(name = "Light Yagami"))
+    val owner = personService.savePerson(User(name = "Light Yagami"))
     return ownerService.makeOwner(deathNote.id!!, owner.id!!)
   }
   

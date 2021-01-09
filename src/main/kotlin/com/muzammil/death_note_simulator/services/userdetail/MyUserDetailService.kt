@@ -1,8 +1,8 @@
 package com.muzammil.death_note_simulator.services.userdetail
 
-import com.muzammil.death_note_simulator.models.AppRole
 import com.muzammil.death_note_simulator.models.MyUserDetails
-import com.muzammil.death_note_simulator.models.User
+import com.muzammil.death_note_simulator.repos.person.UserRepo
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
@@ -13,7 +13,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class MyUserDetailService : UserDetailsService {
+  
+  @Autowired
+  lateinit var userRepo: UserRepo
+  
   override fun loadUserByUsername(username: String): UserDetails {
-    return MyUserDetails(User(username, "123", true, listOf(AppRole.PERSON)))
+    userRepo.findByName(username)?.let {
+      return MyUserDetails(it)
+    } ?: throw Exception("Incorrect username or password")
   }
 }

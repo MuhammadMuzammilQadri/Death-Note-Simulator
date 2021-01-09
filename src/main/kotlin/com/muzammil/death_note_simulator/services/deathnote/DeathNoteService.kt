@@ -3,7 +3,7 @@ package com.muzammil.death_note_simulator.services.deathnote
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.DeathNoteHistory
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
 import com.muzammil.death_note_simulator.repos.deathnote_history.DeathNoteHistoryRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,14 +41,14 @@ class DeathNoteService : IDeathNoteService {
   }
   
   
-  override fun makeOwner(deathNote: DeathNote, owner: Person): DeathNote {
+  override fun makeOwner(deathNote: DeathNote, owner: User): DeathNote {
     return makeOwner(deathNote.id!!, owner.id!!)
   }
   
   override fun makeOwner(deathNoteId: Long, ownerId: Long): DeathNote {
     
     deathNoteHistoryRepo.save(DeathNoteHistory(deathNote = DeathNote(id = deathNoteId),
-                                               owner = Person(id = ownerId)))
+                                               owner = User(id = ownerId)))
     deathNoteRepo.updateOwner(deathNoteId, ownerId)
     return findNotebook(deathNoteId)
   }

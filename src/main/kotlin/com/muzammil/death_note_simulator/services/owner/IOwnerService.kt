@@ -1,12 +1,12 @@
 package com.muzammil.death_note_simulator.services.owner
 
 import com.muzammil.death_note_simulator.models.Memory
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 
 interface IOwnerService {
-  fun makeOwner(deathNoteId: Long, personId: Long): Person
-  fun getOwner(id: Long): Person?
-  fun listOwners(shouldFetchFaces: Boolean = false): List<Person>
+  fun makeOwner(deathNoteId: Long, personId: Long): User
+  fun getOwner(id: Long): User?
+  fun listOwners(shouldFetchFaces: Boolean = false): List<User>
   
   fun killPerson(ownerId: Long, personToKillId: Long)
   fun deleteAll()

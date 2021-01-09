@@ -17,8 +17,8 @@ class Memory(
   
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "owner_id")
-  var ownerPerson: Person? = null,
+  var ownerPerson: User? = null,
   
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "person_id")
-  var killedPerson: Person? = null)
+  var killedPerson: User? = null)

@@ -1,6 +1,6 @@
 package com.muzammil.death_note_simulator.services.person
 
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.ReposManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -34,9 +34,9 @@ class PersonServiceTest {
   fun createAUser_addFaces_thenFindByName() {
     
     // given
-    val personLight = Person(name = "Light")
-    val personYagami = Person(name = "Yagami")
-    val personL = Person(name = "L")
+    val personLight = User(name = "Light")
+    val personYagami = User(name = "Yagami")
+    val personL = User(name = "L")
     personService.saveAll(listOf(personLight, personYagami, personL))
     
     // then
@@ -56,7 +56,7 @@ class PersonServiceTest {
   @Test
   fun addANotExistentFaceToTheListOfPerson_thenFails() {
     // given
-    val personYagami = Person(name = "Yagami")
+    val personYagami = User(name = "Yagami")
     personService.savePerson(personYagami)
     
     // then add a non-existent person's face

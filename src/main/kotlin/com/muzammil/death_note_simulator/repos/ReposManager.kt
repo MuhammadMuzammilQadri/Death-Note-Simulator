@@ -4,7 +4,7 @@ import com.muzammil.death_note_simulator.logger
 import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
 import com.muzammil.death_note_simulator.repos.deathnote_history.DeathNoteHistoryRepo
 import com.muzammil.death_note_simulator.repos.memory.MemoryRepo
-import com.muzammil.death_note_simulator.repos.person.PersonRepo
+import com.muzammil.death_note_simulator.repos.person.UserRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -18,7 +18,7 @@ class ReposManager {
   private lateinit var deathNoteRepo: DeathNoteRepo
   
   @Autowired
-  private lateinit var personRepo: PersonRepo
+  private lateinit var personRepo: UserRepo
   
   @Autowired
   private lateinit var memoryRepo: MemoryRepo

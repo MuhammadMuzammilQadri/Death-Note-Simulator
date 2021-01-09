@@ -1,5 +1,6 @@
 package com.muzammil.death_note_simulator.models
 
-enum class AppRole {
-  PERSON, DEATH_NOTE_OWNER, SHINIGAMI, ADMIN
+enum class AppRole(val value: String) {
+  USER("user"),
+  ADMIN("admin")
 }

@@ -2,9 +2,9 @@ package com.muzammil.death_note_simulator.services.owner
 
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.Memory
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.memory.MemoryRepo
-import com.muzammil.death_note_simulator.repos.person.PersonRepo
+import com.muzammil.death_note_simulator.repos.person.UserRepo
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,13 +22,13 @@ class OwnerService : IOwnerService {
   lateinit var personService: IPersonService
   
   @Autowired
-  lateinit var personRepo: PersonRepo
+  lateinit var personRepo: UserRepo
   
   @Autowired
   lateinit var memoryRepo: MemoryRepo
   
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  override fun makeOwner(deathNoteId: Long, personId: Long): Person {
+  override fun makeOwner(deathNoteId: Long, personId: Long): User {
     deathNoteService.makeOwner(deathNoteId, personId)
     return personService.getPersonById(personId,
                                        shouldFetchFaces = true,
@@ -41,7 +41,7 @@ class OwnerService : IOwnerService {
   }
   
   @Transactional(readOnly = true)
-  override fun listOwners(shouldFetchFaces: Boolean): List<Person> {
+  override fun listOwners(shouldFetchFaces: Boolean): List<User> {
     return when {
       shouldFetchFaces -> {
         personRepo.findOwnersWithFaces().toList()
@@ -59,7 +59,7 @@ class OwnerService : IOwnerService {
     addKillToOwnerMemory(ownerId, personToKillId)
   }
   
-  override fun getOwner(id: Long): Person {
+  override fun getOwner(id: Long): User {
     return personRepo.findByIdAndDeathNotesNotNull(id)
            ?: throw DataNotFoundException("No owner exists with the specified id: $id")
   }
@@ -71,7 +71,7 @@ class OwnerService : IOwnerService {
       owner.deathNotes?.first()?.let { notebook ->
         memoryRepo.save(Memory(deathNote = notebook,
                                ownerPerson = owner,
-                               killedPerson = Person(id = personToKillId)))
+                               killedPerson = User(id = personToKillId)))
       } ?: throw DataNotFoundException("${owner.name} has no DeathNotes")
     }
   }

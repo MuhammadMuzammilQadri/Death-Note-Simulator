@@ -18,4 +18,4 @@ class DeathNoteHistory(
   
   @OneToOne
   @JoinColumn(name = "owner_id")
-  var owner: Person? = null)
+  var owner: User? = null)

@@ -1,7 +1,8 @@
 package com.muzammil.death_note_simulator
 
+import com.muzammil.death_note_simulator.models.AppRole
 import com.muzammil.death_note_simulator.models.DeathNote
-import com.muzammil.death_note_simulator.models.Person
+import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.owner.IOwnerService
@@ -33,15 +34,21 @@ class SeedersManager {
   @PostConstruct
   fun seed() {
     reposManager.deleteDataFromAllRepos()
-    val person = personService.savePerson(Person(name = "Bad Guy"))
-    val owner = createOwner()
+    createBadPerson()
+    createOwner()
+    createAdmin()
     logger.warn("Initialized seeders...")
   }
   
+  private fun createBadPerson() = personService.savePerson(User(name = "Bad Guy"))
   
-  private fun createOwner(): Person {
+  private fun createAdmin() =
+    personService.savePerson(User(name = "Muhammad Muzammil", roles = AppRole.ADMIN))
+  
+  
+  private fun createOwner(): User {
     val deathNote = createDeathNote()
-    val owner = personService.savePerson(Person(name = "Light Yagami"))
+    val owner = personService.savePerson(User(name = "Light Yagami"))
     ownerService.makeOwner(deathNote.id!!, owner.id!!)
     return owner
   }

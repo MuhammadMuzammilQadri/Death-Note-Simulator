@@ -21,4 +21,4 @@ class DeathNote(
   
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "owner_id", unique = true)
-  var owner: Person? = null)
+  var owner: User? = null)
