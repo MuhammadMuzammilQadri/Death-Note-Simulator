@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.repos.deathnote
+package com.muzammil.death_note_simulator.repos
 
 import com.muzammil.death_note_simulator.models.DeathNote
 import org.springframework.data.jpa.repository.Modifying

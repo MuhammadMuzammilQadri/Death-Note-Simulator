@@ -43,6 +43,11 @@ object JwtUtil {
     return createToken(claims, userDetails.username)
   }
   
+  fun generateToken(username: String): String {
+    val claims: Map<String, Any> = HashMap()
+    return createToken(claims, username)
+  }
+  
   private fun createToken(claims: Map<String, Any>,
                           subject: String): String {
     return Jwts.builder().setClaims(claims).setSubject(subject)

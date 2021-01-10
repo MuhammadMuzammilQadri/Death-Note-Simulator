@@ -1,6 +1,7 @@
 package com.muzammil.death_note_simulator.controllers.auth
 
 import com.muzammil.death_note_simulator.config.JwtUtil
+import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationRequest
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationResponse
 import com.muzammil.death_note_simulator.services.userdetail.MyUserDetailService
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -30,16 +32,27 @@ class AuthController {
   fun login(@RequestBody
             body: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
     try {
-      authenticationManager.authenticate(
+      return authenticationManager.authenticate(
         UsernamePasswordAuthenticationToken(body.username,
                                             body.password))
+        .principal
+        .let {
+          when (it) {
+            is UserDetails -> {
+              JwtUtil.generateToken(it)
+            }
+            is String      -> {
+              JwtUtil.generateToken(it)
+            }
+            else           -> {
+              throw UnknownException("Invalid principal")
+            }
+          }
+        }
+        .let { ResponseEntity.ok(AuthenticationResponse(it)) }
+      
     } catch (e: Exception) {
       throw Exception("Incorrect username or password", e)
     }
-    
-    return userDetailService
-      .loadUserByUsername("")
-      .let(JwtUtil::generateToken)
-      .let { ResponseEntity.ok(AuthenticationResponse(it)) }
   }
 }

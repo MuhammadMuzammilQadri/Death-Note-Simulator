@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.repos.deathnote_history
+package com.muzammil.death_note_simulator.repos
 
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.DeathNoteHistory

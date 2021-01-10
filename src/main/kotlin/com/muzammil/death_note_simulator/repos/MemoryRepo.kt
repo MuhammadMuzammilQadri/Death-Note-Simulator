@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.repos.memory
+package com.muzammil.death_note_simulator.repos
 
 import com.muzammil.death_note_simulator.models.Memory
 import com.muzammil.death_note_simulator.models.User

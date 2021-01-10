@@ -4,8 +4,8 @@ import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.DeathNoteHistory
 import com.muzammil.death_note_simulator.models.User
-import com.muzammil.death_note_simulator.repos.deathnote.DeathNoteRepo
-import com.muzammil.death_note_simulator.repos.deathnote_history.DeathNoteHistoryRepo
+import com.muzammil.death_note_simulator.repos.DeathNoteRepo
+import com.muzammil.death_note_simulator.repos.DeathNoteHistoryRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation

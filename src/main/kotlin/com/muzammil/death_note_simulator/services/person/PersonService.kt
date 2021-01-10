@@ -2,7 +2,7 @@ package com.muzammil.death_note_simulator.services.person
 
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
 import com.muzammil.death_note_simulator.models.User
-import com.muzammil.death_note_simulator.repos.person.UserRepo
+import com.muzammil.death_note_simulator.repos.UserRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation

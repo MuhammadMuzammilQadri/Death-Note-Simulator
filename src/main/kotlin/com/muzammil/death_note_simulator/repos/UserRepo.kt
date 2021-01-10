@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.repos.person
+package com.muzammil.death_note_simulator.repos
 
 import com.muzammil.death_note_simulator.models.User
 import org.springframework.data.jpa.repository.Modifying
