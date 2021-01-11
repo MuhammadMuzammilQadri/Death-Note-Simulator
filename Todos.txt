@@ -33,7 +33,7 @@ Migrations Testing:
     - name of the deathnote
 
 
-Convert from H2 to SQL
-======================
-
-* Revisit LearnSpring notes, and then continue watching videos of RestWithSpring
+TODOS:
+===================
+* Use access tokens instead of owner ids while activating owner's powers
+* Do the above for other endpoints too
