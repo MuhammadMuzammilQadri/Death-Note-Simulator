@@ -3,8 +3,8 @@ package com.muzammil.death_note_simulator.controllers.exceptioinHandler
 import com.muzammil.death_note_simulator.exceptions.AppException
 import com.muzammil.death_note_simulator.models.ApiError
 import com.muzammil.death_note_simulator.models.ApiErrorWithList
+import org.springframework.core.NestedExceptionUtils
 import org.springframework.dao.DataAccessException
-import org.springframework.dao.DataRetrievalFailureException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -12,21 +12,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import javax.validation.ConstraintViolationException
 
+
 /**
  * Created by Muzammil on 11/22/20.
  */
 @ControllerAdvice
 class GlobalExceptionHandler {
-  
-  @ExceptionHandler(value = [
-    DataAccessException::class,
-    DataRetrievalFailureException::class])
-  fun dataAccessAndMethodArgumentNotValidFailures(ex: Exception)
-    : ResponseEntity<ApiError> {
-    return ResponseEntity(ApiError(HttpStatus.NOT_ACCEPTABLE.value(),
-                                   ex.cause?.message ?: "Invalid data"),
-                          HttpStatus.NOT_ACCEPTABLE)
-  }
   
   @ExceptionHandler(value = [MethodArgumentNotValidException::class])
   fun methodArgumentNotValidException(ex: MethodArgumentNotValidException) =
@@ -54,20 +45,37 @@ class GlobalExceptionHandler {
                        HttpStatus.NOT_ACCEPTABLE)
       }
   
+  @ExceptionHandler(value = [DataAccessException::class])
+  fun dataAccessAndMethodArgumentNotValidFailures(ex: DataAccessException)
+    : ResponseEntity<ApiError> {
+    return ResponseEntity(ApiError(HttpStatus.NOT_ACCEPTABLE.value(),
+                                   getMostSpecificMessage(ex) ?: "Invalid data"),
+                          HttpStatus.NOT_ACCEPTABLE)
+  }
   
   @ExceptionHandler(value = [AppException::class])
   fun appExceptions(ex: AppException)
     : ResponseEntity<ApiError> {
     return ResponseEntity(ApiError(ex.statusCode.value(),
-                                   ex.cause?.message ?: "Something bad happened. Try again later"),
+                                   getMostSpecificMessage(ex) ?: "Something bad happened. Try again later"),
                           ex.statusCode)
   }
   
   @ExceptionHandler
   fun unHandledFailures(ex: Exception)
     : ResponseEntity<ApiError> {
+    ex.printStackTrace()
     return ResponseEntity(ApiError(HttpStatus.BAD_REQUEST.value(),
-                                   ex.cause?.message ?: "Something bad happened. Try again later"),
+                                   getMostSpecificMessage(ex)
+                                   ?: "Something bad happened. Try again later"),
                           HttpStatus.BAD_REQUEST)
+  }
+  
+  private fun getMostSpecificMessage(ex: Exception): String? {
+    var message = NestedExceptionUtils.getMostSpecificCause(ex).message
+    if (message?.contains("Detail:") == true) {
+      message = message.substring(message.indexOf("Detail:") + "Detail:".length)
+    }
+    return message
   }
 }

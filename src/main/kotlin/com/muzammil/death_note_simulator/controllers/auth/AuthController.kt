@@ -28,6 +28,9 @@ class AuthController {
   @Autowired
   lateinit var userDetailService: MyUserDetailService
   
+  @Autowired
+  lateinit var jwtUtil: JwtUtil
+  
   @PostMapping(value = ["login"])
   fun login(@RequestBody
             body: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
@@ -39,10 +42,7 @@ class AuthController {
         .let {
           when (it) {
             is UserDetails -> {
-              JwtUtil.generateToken(it)
-            }
-            is String      -> {
-              JwtUtil.generateToken(it)
+              jwtUtil.generateToken(it)
             }
             else           -> {
               throw UnknownException("Invalid principal")

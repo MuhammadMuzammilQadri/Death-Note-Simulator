@@ -4,18 +4,20 @@ package com.muzammil.death_note_simulator.config
  * Created by Muzammil on 1/9/21.
  */
 
+import com.muzammil.death_note_simulator.models.MyUserDetails
+import com.muzammil.death_note_simulator.models.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.util.*
-import kotlin.collections.HashMap
 
 
 @Service
-object JwtUtil {
-  private val SECRET_KEY = "secret"
+class JwtUtil {
+  private val SECRET_KEY = "c2VjcmV0"
+  val ROLES = "roles"
   
   fun extractUsername(token: String?): String {
     return extractClaim(token, Claims::getSubject)
@@ -39,13 +41,17 @@ object JwtUtil {
   }
   
   fun generateToken(userDetails: UserDetails): String {
-    val claims: Map<String, Any> = HashMap()
+    val claims: Map<String, Any> = mutableMapOf<String, Any>().also {
+      it.put(ROLES, userDetails.authorities.joinToString())
+    }
     return createToken(claims, userDetails.username)
   }
   
-  fun generateToken(username: String): String {
-    val claims: Map<String, Any> = HashMap()
-    return createToken(claims, username)
+  fun parseToken(token: String): UserDetails {
+    val claims: Claims = extractAllClaims(token)
+    return User(name = claims.subject,
+                roles = enumValueOf(claims.get(ROLES, String::class.java)))
+      .let { MyUserDetails(it) }
   }
   
   private fun createToken(claims: Map<String, Any>,
@@ -54,17 +60,5 @@ object JwtUtil {
       .setIssuedAt(Date(System.currentTimeMillis()))
       .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
       .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact()
-  }
-  
-  fun validateToken(token: String?, userDetails: UserDetails): Boolean {
-    val username = extractUsername(token)
-    return username == userDetails.username && !isTokenExpired(token)
-    
-    // return try {
-    //   Jwts.parser().setSigningKey(SECRET_KEY).parse(token)
-    //   true
-    // } catch (e: Exception) {
-    //   false
-    // }
   }
 }
