@@ -1,6 +1,6 @@
 package com.muzammil.death_note_simulator
 
-import com.muzammil.death_note_simulator.models.AppRole
+import com.muzammil.death_note_simulator.models.AppAuthority
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.ReposManager
@@ -46,7 +46,7 @@ class SeedersManager : ApplicationListener<ContextRefreshedEvent> {
   private fun createBadPerson() = personService.savePerson(User(name = "Bad Guy"))
   
   private fun createAdmin() =
-    personService.savePerson(User(name = "Muhammad Muzammil", roles = AppRole.ADMIN))
+    personService.savePerson(User(name = "Muhammad Muzammil", roles = AppAuthority.ADMIN))
   
   
   private fun createOwner(): User {

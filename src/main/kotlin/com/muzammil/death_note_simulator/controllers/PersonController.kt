@@ -5,6 +5,7 @@ import com.muzammil.death_note_simulator.models.dtos.*
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 
@@ -21,6 +22,7 @@ class PersonController {
   @Autowired
   lateinit var modelMapper: ModelMapper
   
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping(value = ["create"])
   fun createPerson(@RequestBody
                    body: PersonExceptIdDTO): PersonDTO {

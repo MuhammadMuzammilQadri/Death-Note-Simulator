@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.annotation.security.PermitAll
 
 /**
  * Created by Muzammil on 1/9/21.
  */
 @RestController
 @RequestMapping("auth/")
+@PermitAll
 class AuthController {
   
   @Autowired
   lateinit var authenticationManager: AuthenticationManager
-  
-  @Autowired
-  lateinit var userDetailService: MyUserDetailService
   
   @Autowired
   lateinit var jwtUtil: JwtUtil

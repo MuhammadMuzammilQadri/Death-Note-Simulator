@@ -22,10 +22,10 @@ class User(
   var isAlive: Boolean = true,
   
   var password: String = "123",
-
+  
   @Column(name = "role")
   @Enumerated(EnumType.STRING)
-  var roles: AppRole = AppRole.USER,
+  var roles: AppAuthority = AppAuthority.USER,
   
   @ManyToMany
   var facesSeen: Set<User>? = mutableSetOf(),

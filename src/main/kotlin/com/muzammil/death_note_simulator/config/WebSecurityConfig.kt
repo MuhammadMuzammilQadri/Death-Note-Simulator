@@ -1,7 +1,6 @@
 package com.muzammil.death_note_simulator.config
 
 import com.muzammil.death_note_simulator.filters.JwtRequestFilter
-import com.muzammil.death_note_simulator.models.AppRole
 import com.muzammil.death_note_simulator.services.userdetail.MyUserDetailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -20,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 
 @EnableWebSecurity
-class SecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
   
   @Autowired
   lateinit var myUserDetailService: MyUserDetailService
@@ -37,10 +36,10 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
       ?.addFilterBefore(jwtRequestFilter,
                         UsernamePasswordAuthenticationFilter::class.java)
       ?.authorizeRequests()
-      ?.antMatchers("/deathnote/create/**")?.hasAuthority(AppRole.ADMIN.name)
-      ?.antMatchers("/owner/create")?.hasAuthority(AppRole.ADMIN.name)
-      ?.antMatchers("/person/create")?.hasAuthority(AppRole.ADMIN.name)
-      ?.antMatchers("/auth/**")?.permitAll()
+      // ?.antMatchers("/deathnote/create/**")?.hasAuthority(AppRole.ADMIN.name)
+      // ?.antMatchers("/owner/create")?.hasAuthority(AppRole.ADMIN.name)
+      // ?.antMatchers("/person/create")?.hasAuthority(AppRole.ADMIN.name)
+      // ?.antMatchers("/auth/**")?.permitAll()
       ?.anyRequest()?.authenticated()
       ?.and()?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
   }

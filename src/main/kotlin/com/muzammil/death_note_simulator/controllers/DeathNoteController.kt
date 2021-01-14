@@ -7,6 +7,7 @@ import com.muzammil.death_note_simulator.models.dtos.DeathNotesListDTO
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -22,6 +23,7 @@ class DeathNoteController {
   @Autowired
   lateinit var modelMapper: ModelMapper
   
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping(value = ["create/{name}"])
   fun create(@PathVariable
              name: String): DeathNoteDTO {
