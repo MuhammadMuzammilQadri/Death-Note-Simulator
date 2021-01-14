@@ -4,6 +4,7 @@ package com.muzammil.death_note_simulator.config
  * Created by Muzammil on 1/9/21.
  */
 
+import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.MyUserDetails
 import com.muzammil.death_note_simulator.models.User
 import io.jsonwebtoken.Claims
@@ -18,6 +19,7 @@ import java.util.*
 class JwtUtil {
   private val SECRET_KEY = "c2VjcmV0"
   val ROLES = "roles"
+  val ID = "id"
   
   fun extractUsername(token: String?): String {
     return extractClaim(token, Claims::getSubject)
@@ -40,16 +42,21 @@ class JwtUtil {
     return extractExpiration(token).before(Date())
   }
   
-  fun generateToken(userDetails: UserDetails): String {
+  fun generateToken(userDetails: MyUserDetails): String {
     val claims: Map<String, Any> = mutableMapOf<String, Any>().also {
-      it.put(ROLES, userDetails.authorities.joinToString())
+      it.put(ROLES,
+             userDetails.authorities?.joinToString()
+             ?: throw UnknownException("Invalid authorities while creating token"))
+      it.put(ID, userDetails.user.id
+                 ?: throw UnknownException("Invalid id while creating token"))
     }
     return createToken(claims, userDetails.username)
   }
   
   fun parseToken(token: String): UserDetails {
     val claims: Claims = extractAllClaims(token)
-    return User(name = claims.subject,
+    return User(id = claims.get(ID, Long::class.java),
+                name = claims.subject,
                 roles = enumValueOf(claims.get(ROLES, String::class.java)))
       .let { MyUserDetails(it) }
   }

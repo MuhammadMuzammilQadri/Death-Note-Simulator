@@ -1,7 +1,9 @@
 package com.muzammil.death_note_simulator.controllers
 
+import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.models.dtos.*
+import com.muzammil.death_note_simulator.services.auth.IAuthenticationFacade
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +23,9 @@ class PersonController {
   
   @Autowired
   lateinit var modelMapper: ModelMapper
+  
+  @Autowired
+  lateinit var authenticationFacade: IAuthenticationFacade
   
   @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping(value = ["create"])
@@ -59,13 +64,18 @@ class PersonController {
     }
   }
   
-  @PutMapping(value = ["addfacestoseen/{id}"])
-  fun addFacesToSeen(@PathVariable
+  @PutMapping(value = ["addfacestoseen/"])
+  fun addFacesToSeen(@RequestParam(required = false)
                      id: Long,
                      @RequestBody
                      body: PersonIdListDTO): PersonWithFacesDTO {
+    var selfIdOrOthers = id
+    if (selfIdOrOthers < 0) {
+      selfIdOrOthers = authenticationFacade.getUser().id
+                       ?: throw UnknownException("Principle id not found while add faces to seen")
+    }
     return personService
-      .addFaceToPerson(id, body.facesList.map { it.id }.toTypedArray())
+      .addFaceToPerson(selfIdOrOthers, body.facesList.map { it.id }.toTypedArray())
       .let {
         modelMapper.map(it, PersonWithFacesDTO::class.java)
       }

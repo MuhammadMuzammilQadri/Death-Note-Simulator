@@ -35,5 +35,3 @@ Migrations Testing:
 
 TODOS:
 ===================
-* Use access tokens instead of owner ids while activating owner's powers
-* Do the above for other endpoints too

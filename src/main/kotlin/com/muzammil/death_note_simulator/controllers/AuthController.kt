@@ -2,6 +2,7 @@ package com.muzammil.death_note_simulator.controllers
 
 import com.muzammil.death_note_simulator.config.JwtUtil
 import com.muzammil.death_note_simulator.exceptions.UnknownException
+import com.muzammil.death_note_simulator.models.MyUserDetails
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationRequest
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationResponse
 import com.muzammil.death_note_simulator.services.userdetail.MyUserDetailService
@@ -40,7 +41,7 @@ class AuthController {
         .principal
         .let {
           when (it) {
-            is UserDetails -> {
+            is MyUserDetails -> {
               jwtUtil.generateToken(it)
             }
             else           -> {
