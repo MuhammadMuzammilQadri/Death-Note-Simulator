@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.controllers.owner
+package com.muzammil.death_note_simulator.controllers
 
 import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.dtos.*

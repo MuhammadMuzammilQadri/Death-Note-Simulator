@@ -8,14 +8,16 @@ import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.owner.IOwnerService
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationListener
+import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
-import javax.annotation.PostConstruct
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * Created by Muzammil on 12/1/20.
  */
 @Component
-class SeedersManager {
+class SeedersManager : ApplicationListener<ContextRefreshedEvent> {
   
   @Autowired
   lateinit var deathNoteService: IDeathNoteService
@@ -31,13 +33,14 @@ class SeedersManager {
   @Autowired
   lateinit var reposManager: ReposManager
   
-  @PostConstruct
-  fun seed() {
+  @Transactional
+  override fun onApplicationEvent(event: ContextRefreshedEvent) {
+    logger.warn("Initializing Seeders...")
     reposManager.deleteDataFromAllRepos()
     createBadPerson()
     createOwner()
     createAdmin()
-    logger.warn("Initialized seeders...")
+    logger.warn("Seeders Initialized Successfully...")
   }
   
   private fun createBadPerson() = personService.savePerson(User(name = "Bad Guy"))
@@ -56,5 +59,6 @@ class SeedersManager {
   private fun createDeathNote(): DeathNote {
     return deathNoteService.createOrUpdateNotebook(DeathNote(name = "Ryuk Notebook"))
   }
+  
   
 }

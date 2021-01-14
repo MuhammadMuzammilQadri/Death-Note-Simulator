@@ -1,6 +1,5 @@
-package com.muzammil.death_note_simulator.controllers.exceptioinHandler
+package com.muzammil.death_note_simulator.exceptions
 
-import com.muzammil.death_note_simulator.exceptions.AppException
 import com.muzammil.death_note_simulator.models.ApiError
 import com.muzammil.death_note_simulator.models.ApiErrorWithList
 import org.springframework.core.NestedExceptionUtils

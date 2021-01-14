@@ -4,6 +4,7 @@ package com.muzammil.death_note_simulator.config
  * Created by Muzammil on 1/9/21.
  */
 
+import com.muzammil.death_note_simulator.models.AppRole
 import com.muzammil.death_note_simulator.models.MyUserDetails
 import com.muzammil.death_note_simulator.models.User
 import io.jsonwebtoken.Claims

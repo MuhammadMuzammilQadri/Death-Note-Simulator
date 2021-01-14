@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.controllers.auth
+package com.muzammil.death_note_simulator.controllers
 
 import com.muzammil.death_note_simulator.config.JwtUtil
 import com.muzammil.death_note_simulator.exceptions.UnknownException
@@ -35,9 +35,9 @@ class AuthController {
   fun login(@RequestBody
             body: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
     try {
-      return authenticationManager.authenticate(
-        UsernamePasswordAuthenticationToken(body.username,
-                                            body.password))
+      return authenticationManager
+        .authenticate(UsernamePasswordAuthenticationToken(
+          body.username, body.password))
         .principal
         .let {
           when (it) {

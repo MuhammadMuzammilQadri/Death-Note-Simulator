@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.controllers.deathnote
+package com.muzammil.death_note_simulator.controllers
 
 import com.muzammil.death_note_simulator.models.DeathNote
 import com.muzammil.death_note_simulator.models.dtos.DeathNoteDTO

@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.controllers.person
+package com.muzammil.death_note_simulator.controllers
 
 import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.models.dtos.*
