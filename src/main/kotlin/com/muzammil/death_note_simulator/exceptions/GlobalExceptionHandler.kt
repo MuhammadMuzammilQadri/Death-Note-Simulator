@@ -48,7 +48,8 @@ class GlobalExceptionHandler {
   fun dataAccessAndMethodArgumentNotValidFailures(ex: DataAccessException)
     : ResponseEntity<ApiError> {
     return ResponseEntity(ApiError(HttpStatus.NOT_ACCEPTABLE.value(),
-                                   getMostSpecificMessage(ex) ?: "Invalid data"),
+                                   getMostSpecificMessage(ex, HttpStatus.NOT_ACCEPTABLE.value())
+                                   ?: "Invalid data"),
                           HttpStatus.NOT_ACCEPTABLE)
   }
   
@@ -56,7 +57,8 @@ class GlobalExceptionHandler {
   fun appExceptions(ex: AppException)
     : ResponseEntity<ApiError> {
     return ResponseEntity(ApiError(ex.statusCode.value(),
-                                   getMostSpecificMessage(ex) ?: "Something bad happened. Try again later"),
+                                   getMostSpecificMessage(ex, ex.statusCode.value())
+                                   ?: "Something bad happened. Try again later"),
                           ex.statusCode)
   }
   
@@ -65,16 +67,18 @@ class GlobalExceptionHandler {
     : ResponseEntity<ApiError> {
     ex.printStackTrace()
     return ResponseEntity(ApiError(HttpStatus.BAD_REQUEST.value(),
-                                   getMostSpecificMessage(ex)
+                                   getMostSpecificMessage(ex, HttpStatus.BAD_REQUEST.value())
                                    ?: "Something bad happened. Try again later"),
                           HttpStatus.BAD_REQUEST)
   }
   
-  private fun getMostSpecificMessage(ex: Exception): String? {
+  private fun getMostSpecificMessage(ex: Exception, statusCode: Int): String? {
     var message = NestedExceptionUtils.getMostSpecificCause(ex).message
     if (message?.contains("Detail:") == true) {
       message = message.substring(message.indexOf("Detail:") + "Detail:".length)
     }
-    return message
+    return message?.replace(statusCode.toString(),
+                            "",
+                            false)?.trim()
   }
 }

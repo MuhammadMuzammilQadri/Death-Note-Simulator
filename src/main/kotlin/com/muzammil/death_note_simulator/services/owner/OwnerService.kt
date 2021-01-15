@@ -1,6 +1,8 @@
 package com.muzammil.death_note_simulator.services.owner
 
+import com.muzammil.death_note_simulator.exceptions.AppException
 import com.muzammil.death_note_simulator.exceptions.DataNotFoundException
+import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.Memory
 import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.repos.MemoryRepo
@@ -8,6 +10,7 @@ import com.muzammil.death_note_simulator.repos.UserRepo
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -54,9 +57,23 @@ class OwnerService : IOwnerService {
   }
   
   @Transactional(propagation = Propagation.REQUIRED)
-  override fun killPerson(ownerId: Long, personToKillId: Long) {
-    personRepo.updateIsAliveStatus(personToKillId, false)
-    addKillToOwnerMemory(ownerId, personToKillId)
+  override fun killPerson(ownerId: Long, personToKillId: Long): User {
+    return personService.getPersonById(personToKillId,
+                                       shouldFetchFaces = false,
+                                       shouldFetchDeathNotes = false).also { person ->
+      if (!person.isAlive) {
+        throw AppException(HttpStatus.IM_USED, "Person is already killed")
+      }
+      personRepo.updateIsAliveStatus(personToKillId, false).also {
+        if (it > 0) {
+          person.isAlive = false
+        } else {
+          throw UnknownException("Unable to kill person")
+        }
+      }
+      addKillToOwnerMemory(ownerId, personToKillId)
+    }
+    
   }
   
   override fun getOwner(id: Long): User {

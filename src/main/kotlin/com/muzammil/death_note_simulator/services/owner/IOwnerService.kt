@@ -8,7 +8,7 @@ interface IOwnerService {
   fun getOwner(id: Long): User?
   fun listOwners(shouldFetchFaces: Boolean = false): List<User>
   
-  fun killPerson(ownerId: Long, personToKillId: Long)
+  fun killPerson(ownerId: Long, personToKillId: Long): User
   fun deleteAll()
   fun getOwnerMemories(ownerId: Long): List<Memory>
 }

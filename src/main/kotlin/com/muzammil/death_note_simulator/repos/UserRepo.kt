@@ -19,7 +19,7 @@ interface UserRepo : CrudRepository<User, Long> {
   fun updateIsAliveStatus(@Param("personToKillId")
                           personToKillId: Long,
                           @Param("isAlive")
-                          isAlive: Boolean)
+                          isAlive: Boolean): Int
   
   
   @Query("SELECT p FROM User p " +
