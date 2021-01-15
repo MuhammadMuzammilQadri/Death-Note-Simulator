@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping("person/")
+@PreAuthorize("isAuthenticated()")
 class PersonController {
   
   @Autowired

@@ -7,6 +7,7 @@ import com.muzammil.death_note_simulator.models.dtos.AuthenticationRequest
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,7 +21,6 @@ import javax.annotation.security.PermitAll
  */
 @RestController
 @RequestMapping("auth/")
-@PermitAll
 class AuthController {
   
   @Autowired

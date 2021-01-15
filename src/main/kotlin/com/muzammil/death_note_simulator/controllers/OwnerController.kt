@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping("owner/")
+@PreAuthorize("isAuthenticated()")
 class OwnerController {
   
   @Autowired
