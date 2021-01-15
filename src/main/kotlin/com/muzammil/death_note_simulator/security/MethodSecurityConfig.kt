@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.config
+package com.muzammil.death_note_simulator.security
 
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration

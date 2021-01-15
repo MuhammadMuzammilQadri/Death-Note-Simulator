@@ -1,16 +1,14 @@
 package com.muzammil.death_note_simulator.controllers
 
-import com.muzammil.death_note_simulator.config.JwtUtil
+import com.muzammil.death_note_simulator.security.JwtUtil
 import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.MyUserDetails
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationRequest
 import com.muzammil.death_note_simulator.models.dtos.AuthenticationResponse
-import com.muzammil.death_note_simulator.services.userdetail.MyUserDetailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.config
+package com.muzammil.death_note_simulator.security
 
 import com.muzammil.death_note_simulator.filters.JwtRequestFilter
 import com.muzammil.death_note_simulator.services.userdetail.MyUserDetailService

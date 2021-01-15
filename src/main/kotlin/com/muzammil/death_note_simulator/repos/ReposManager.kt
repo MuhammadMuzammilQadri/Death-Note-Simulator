@@ -1,6 +1,6 @@
 package com.muzammil.death_note_simulator.repos
 
-import com.muzammil.death_note_simulator.logger
+import com.muzammil.death_note_simulator.utils.logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator.config
+package com.muzammil.death_note_simulator.security
 
 /**
  * Created by Muzammil on 1/9/21.
@@ -11,11 +11,11 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.util.*
 
 
-@Service
+@Component
 class JwtUtil {
   private val SECRET_KEY = "c2VjcmV0"
   val ROLES = "roles"
@@ -47,7 +47,7 @@ class JwtUtil {
       it.put(ROLES,
              userDetails.authorities?.joinToString()
              ?: throw UnknownException("Invalid authorities while creating token"))
-      it.put(ID, userDetails.user.id
+      it.put(ID, userDetails.user.id?.toString()
                  ?: throw UnknownException("Invalid id while creating token"))
     }
     return createToken(claims, userDetails.username)
@@ -55,7 +55,7 @@ class JwtUtil {
   
   fun parseToken(token: String): UserDetails {
     val claims: Claims = extractAllClaims(token)
-    return User(id = claims.get(ID, Long::class.java),
+    return User(id = claims.get(ID, String::class.java).toLong(),
                 name = claims.subject,
                 roles = enumValueOf(claims.get(ROLES, String::class.java)))
       .let { MyUserDetails(it) }

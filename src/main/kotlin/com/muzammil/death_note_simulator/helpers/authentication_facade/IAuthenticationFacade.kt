@@ -1,7 +1,6 @@
-package com.muzammil.death_note_simulator.services.auth
+package com.muzammil.death_note_simulator.helpers.authentication_facade
 
 import com.muzammil.death_note_simulator.models.User
-import org.springframework.security.core.Authentication
 
 /**
  * Created by Muzammil on 1/14/21.

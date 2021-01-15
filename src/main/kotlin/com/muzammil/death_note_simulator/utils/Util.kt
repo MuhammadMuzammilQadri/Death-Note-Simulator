@@ -1,4 +1,4 @@
-package com.muzammil.death_note_simulator
+package com.muzammil.death_note_simulator.utils
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

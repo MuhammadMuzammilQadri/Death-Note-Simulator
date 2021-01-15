@@ -3,7 +3,7 @@ package com.muzammil.death_note_simulator.controllers
 import com.muzammil.death_note_simulator.exceptions.UnknownException
 import com.muzammil.death_note_simulator.models.User
 import com.muzammil.death_note_simulator.models.dtos.*
-import com.muzammil.death_note_simulator.services.auth.IAuthenticationFacade
+import com.muzammil.death_note_simulator.helpers.authentication_facade.IAuthenticationFacade
 import com.muzammil.death_note_simulator.services.person.IPersonService
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired

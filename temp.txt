@@ -1,0 +1,5 @@
+INSERT INTO USER (name, isAlive, password) VALUES ('The Bad Guy', true, '123')
+INSERT INTO USER (name, isAlive, password, roles) VALUES ('Muhammad Muzammil', 'ADMIN', true, '123')
+INSERT INTO USER (name, isAlive, password) VALUES ('Light Yagami', true, '123')
+INSERT INTO DEATHNOTE (name, owner_id) VALUES ('Ryuk Notebook',
+SELECT id FROM USER WHEN name = 'Light Yagami')

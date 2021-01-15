@@ -1,6 +1,5 @@
-package com.muzammil.death_note_simulator
+package com.muzammil.death_note_simulator.config
 
-import org.hibernate.collection.spi.PersistentCollection
 import org.modelmapper.Conditions
 import org.modelmapper.ModelMapper
 import org.springframework.context.annotation.Bean

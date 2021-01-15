@@ -1,6 +1,6 @@
 package com.muzammil.death_note_simulator.filters
 
-import com.muzammil.death_note_simulator.config.JwtUtil
+import com.muzammil.death_note_simulator.security.JwtUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder

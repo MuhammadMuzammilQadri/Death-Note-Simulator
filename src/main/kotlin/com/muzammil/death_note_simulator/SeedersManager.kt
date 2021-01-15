@@ -7,6 +7,7 @@ import com.muzammil.death_note_simulator.repos.ReposManager
 import com.muzammil.death_note_simulator.services.deathnote.IDeathNoteService
 import com.muzammil.death_note_simulator.services.owner.IOwnerService
 import com.muzammil.death_note_simulator.services.person.IPersonService
+import com.muzammil.death_note_simulator.utils.logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
