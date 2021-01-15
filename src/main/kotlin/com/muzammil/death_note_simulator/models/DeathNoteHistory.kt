@@ -8,7 +8,7 @@ import javax.persistence.*
 
 @Entity
 class DeathNoteHistory(
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   var id: Long? = null,
   

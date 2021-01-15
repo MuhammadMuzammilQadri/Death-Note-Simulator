@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull
 
 @Entity
 class DeathNote(
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   var id: Long? = null,
   

@@ -37,10 +37,10 @@ class SeedersManager : ApplicationListener<ContextRefreshedEvent> {
   @Transactional
   override fun onApplicationEvent(event: ContextRefreshedEvent) {
     logger.warn("Initializing Seeders...")
-    reposManager.deleteDataFromAllRepos()
-    createBadPerson()
-    createOwner()
-    createAdmin()
+    // reposManager.deleteDataFromAllRepos()
+    // createBadPerson()
+    // createOwner()
+    // createAdmin()
     logger.warn("Seeders Initialized Successfully...")
   }
   
